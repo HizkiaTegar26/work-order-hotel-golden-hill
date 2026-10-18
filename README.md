@@ -1,3 +1,6 @@
+[ Read in English 🇬🇧 ](README.en.md) | [ Bahasa Indonesia 🇮🇩 ](README.md)
+<hr>
+
 # SISTEM INFORMASI WORK ORDER, MANAJEMEN ASET, DAN ANALYTIC PERFORMANCE V2.0
 ### Hotel Golden Hill by Golden Tulip Batu
 **Berdasarkan Tugas Akhir:** Hizkia Tegar Kurniawan (NIM: 223140707111136, Universitas Brawijaya)  
@@ -54,6 +57,7 @@ Database `ci4_workorder_v2` dirancang dengan relasi InnoDB, Primary Key, Foreign
 10. `wo_spareparts`: Relasi many-to-many pemakaian suku cadang per work order beserta subtotal biaya.
 11. `log_audit`: Rekam jejak seluruh transaksi CRUD, autentikasi login/logout, eskalasi otomatis, dan IP address.
 12. `reset_password_token`: Token terenkripsi self-service pemulihan kata sandi.
+13. `notification_queue`: Antrean notifikasi asinkron WhatsApp & Email dengan mekanisme retry dan automatic SMTP failover.
 
 ---
 
@@ -74,49 +78,105 @@ Database `ci4_workorder_v2` dirancang dengan relasi InnoDB, Primary Key, Foreign
 
 ---
 
-## 4. 6 Fitur Unggulan & Advanced Modules
+## 4. Modul Unggulan & Fitur Enterprise
 1. **Auto Escalation & Live SLA Countdown Timer:**
    - Menghitung sisa waktu penyelesaian otomatis berdasarkan prioritas SLA.
    - Indikator visual real-time (Badge Hijau: Aman, Kuning: <30% tersisa, Merah/Blinking: Overdue).
    - Mesin eskalasi otomatis mengubah status tiket menjadi `Escalated` saat melewati batas target deadline dan memicu peringatan darurat ke manajemen.
-2. **Integrasi WhatsApp Gateway API:**
-   - Mengirim notifikasi otomatis saat WO Baru diajukan, WO Ditugaskan ke teknisi, WO Ditolak dengan alasan spesifik, serta peringatan darurat saat status Escalated.
-   - Terintegrasi dengan Fonnte / Wablas API Gateway serta mode simulasi sandbox log lokal (`writable/logs/whatsapp_gateway.log`).
-3. **QR Code Scanner Aset Hotel:**
-   - Pemindai kamera HTML5 langsung dari web browser.
-   - Menampilkan kondisi fisik dan riwayat seluruh perbaikan aset terkait.
-   - Tombol pintas *"Laporkan Kerusakan Aset Ini"* yang otomatis mengunci kode aset dan departemen pada form tiket WO.
-4. **Pemotongan Inventaris & Biaya Maintenance:**
-   - Saat staf menyelesaikan WO, teknisi dapat memilih material suku cadang yang digunakan.
-   - Sistem secara atomik memotong stok gudang (aman dari konkurensi) dan menghitung total pengeluaran untuk akuntansi hotel.
-5. **Executive Analytics & KPI Dashboard:**
+2. **Integrasi WhatsApp Gateway & Email Failover:**
+   - Antrean asinkron (`notification_queue`) tanpa memblokir request pengguna via `NotificationService`.
+   - Pengalihan otomatis (*Automatic Failover*) ke Email HTML (SMTP) apabila gateway WhatsApp mengalami galat/timeout.
+3. **QR Code Scanner Aset Hotel & Mitigasi Kamera:**
+   - Pemindai kamera HTML5 langsung dari browser ponsel/PC.
+   - Dilengkapi kontrol senter (*flashlight/torch*), ganti kamera, dan alur cadangan input kode aset manual / searchable dropdown saat izin kamera ditolak.
+4. **Pemotongan Inventaris & Biaya Maintenance (Pessimistic Locking):**
+   - Transaksi atomik dengan penguncian baris eksplisit (`SELECT ... FOR UPDATE`) pada tabel `inventaris_barang` untuk mencegah race condition.
+   - Pembatalan transaksi (*rollback*) otomatis dengan pesan peringatan ramah jika stok tidak mencukupi.
+5. **Sistem Internasionalisasi Penuh (i18n Dwi-Bahasa ID/EN):**
+   - Pengalih bahasa dinamis di navbar (`/lang/id` dan `/lang/en`) dengan persistensi ke Session, Cookie, dan Database pengguna.
+   - Seluruh antarmuka, pesan validasi, tabel DataTables, dan dokumen ekspor Excel/PDF beradaptasi otomatis.
+6. **Mitigasi Blindspot Sinyal (PWA & Offline Draft Auto-Sync):**
+   - Service Worker (`sw.js`) dan Manifest PWA untuk pengoperasian dasar di ruang bawah tanah/ruang mesin.
+   - Penyimpanan draf tiket ke `localStorage` saat offline dan sinkronisasi otomatis (*background sync*) saat jaringan kembali pulih.
+7. **Executive Analytics & KPI Dashboard:**
    - Grafik interaktif Chart.js:
      - *Average Response Time* (Ajuan ke Verifikasi)
      - *Average Resolution Time* (Penugasan ke Selesai)
      - *SLA Compliance Rate* (% Tuntas Tepat Waktu vs Overdue)
      - *Distribusi Biaya Sparepart per Departemen*
      - *Top 5 Aset Hotel Paling Sering Rusak*
-6. **Keamanan, Reset Password & Audit Trail:**
-   - Fitur lupa kata sandi dengan token terenkripsi.
-   - Pencatatan aktivitas audit trail lengkap dengan IP address pengguna pada tabel `log_audit`.
+8. **Keamanan, Reset Password & Audit Trail:**
+   - Token pemulihan kata sandi 32-byte berbatas waktu 1 jam.
+   - Pencatatan kronologis aktivitas pada `log_audit` lengkap dengan nama pengguna, peranan, timestamp, dan alamat IP.
 
 ---
 
-## 5. Validasi & Pengujian Black Box (25 Test Cases)
-Untuk menjalankan suite pengujian otomatis 25 test cases:
+## 5. Panduan Instalasi & Pengaturan Lokal
+
+### Prasyarat Sistem
+- PHP 8.2 atau lebih baru (dengan ekstensi `intl`, `mbstring`, `mysqli`, `gd`, `curl`)
+- MySQL / MariaDB (Server lokal XAMPP)
+- Composer 2.x
+- Web Server Apache (XAMPP di `C:\xampp\htdocs\work-order`)
+
+### Langkah Pemasangan
+1. **Clone Repositori:**
+   ```bash
+   git clone https://github.com/HizkiaTegar26/work-order-hotel-golden-hill.git
+   cd work-order-hotel-golden-hill
+   ```
+2. **Pasang Dependensi PHP:**
+   ```bash
+   composer install
+   ```
+3. **Konfigurasi Lingkungan (`.env`):**
+   Salin berkas `env` menjadi `.env` dan sesuaikan pengaturan database:
+   ```ini
+   CI_ENVIRONMENT = development
+   app.baseURL = 'http://localhost/work-order/'
+   database.default.hostname = localhost
+   database.default.database = ci4_workorder_v2
+   database.default.username = root
+   database.default.password = 
+   database.default.DBDriver = MySQLi
+   ```
+4. **Migrasi Skema & Seeding Data:**
+   ```bash
+   php spark migrate
+   php spark db:seed DatabaseSeeder
+   ```
+5. **Jalankan Aplikasi:**
+   Akses melalui peramban web pada [http://localhost/work-order/](http://localhost/work-order/).
+
+---
+
+## 6. Validasi & Pengujian Otomatis
+
+### 6.1 Black Box Validation Suite (25 Test Cases)
 ```bash
 php spark test:blackbox
 ```
-atau
-```bash
-php tests/BlackBoxValidationTest.php
-```
-
 Hasil pengujian: **25 VALID (PASS) / 0 GAGAL (100% KELULUSAN)**.
+
+### 6.2 Robustness & Failover Suite (15 Test Cases)
+```bash
+php spark test:robustness
+```
+Hasil pengujian: **15 VALID (PASS) / 0 GAGAL (100% KELULUSAN)**.
 
 ---
 
-## 6. CLI Commands
-- `php spark wo:escalate` : Menjalankan evaluasi manual auto escalation tiket overdue.
-- `php spark test:blackbox` : Menjalankan pengujian 25 skenario validasi Black Box.
-- `php spark db:seed DatabaseSeeder` : Mereset & mengisi ulang data seeder realistis.
+## 7. Perintah CLI Pendukung
+- `php spark wo:escalate` : Menjalankan evaluasi berkala auto-escalation tiket overdue.
+- `php spark queue:work --once` : Memproses antrean notifikasi WhatsApp & Email failover.
+- `php spark test:blackbox` : Menjalankan pengujian 25 skenario Black Box multi-role.
+- `php spark test:robustness` : Menjalankan verifikasi 15 pengujian ketahanan & failover.
+- `php spark db:seed DatabaseSeeder` : Mengisi ulang data awal pengujian realistis.
+
+---
+
+## 8. Pengembang & Lisensi
+- **Pengembang:** Hizkia Tegar Kurniawan (NIM: 223140707111136)
+- **Institusi:** Program Studi D4 Manajemen Informatika, Fakultas Vokasi, Universitas Brawijaya
+- **Mitra Industri:** Hotel Golden Hill by Golden Tulip Batu
+- **Lisensi:** MIT License - Bebas digunakan dan dikembangkan untuk keperluan akademik dan operasional perhotelan.
