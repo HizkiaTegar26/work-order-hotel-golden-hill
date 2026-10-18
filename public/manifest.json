@@ -1,0 +1,18 @@
+{
+  "name": "Hotel Golden Hill - Work Order & Aset V2.0",
+  "short_name": "GHH WorkOrder",
+  "description": "Sistem Informasi Work Order, Manajemen Aset & Analytic Performance V2.0 Hotel Golden Hill by Golden Tulip Batu",
+  "start_url": "/work-order/",
+  "scope": "/work-order/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0f172a",
+  "theme_color": "#0f172a",
+  "icons": [
+    {
+      "src": "/work-order/favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    }
+  ]
+}

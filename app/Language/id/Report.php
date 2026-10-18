@@ -1,0 +1,48 @@
+<?php
+
+return [
+    'hotel_title'           => 'HOTEL GOLDEN HILL BY GOLDEN TULIP BATU',
+    'hotel_address'         => 'Jl. Raya Oro-Oro Ombo No. 11, Kota Wisata Batu, Jawa Timur',
+    'hotel_phone'           => 'Telp: (0341) 593888 | Sistem Work Order & Asset Management V2.0',
+    'excel_main_header'     => 'LAPORAN SISTEM WORK ORDER, MANAJEMEN ASET, DAN KINERJA SLA',
+    'download_date'         => 'Tanggal Unduh: {0} | Operator: {1}',
+    'spk_title'             => 'Surat Perintah Kerja (Work Order Ticket)',
+    
+    // Headers Excel
+    'col_no'                => 'No',
+    'col_wo_code'           => 'Kode WO',
+    'col_title'             => 'Judul Work Order',
+    'col_dept'              => 'Departemen',
+    'col_category'          => 'Kategori',
+    'col_sla_priority'      => 'Prioritas SLA',
+    'col_status'            => 'Status',
+    'col_requester'         => 'Pengaju',
+    'col_handler'           => 'Petugas Handler',
+    'col_date'              => 'Tanggal Ajuan',
+    'col_duration_min'      => 'Durasi (Mnt)',
+    'col_cost_idr'          => 'Biaya Sparepart (IDR)',
+    'total_expense_label'   => 'TOTAL PENGELUARAN BIAYA SPAREPART',
+    
+    // PDF SPK Labels
+    'job_title'             => 'Judul Pekerjaan:',
+    'status_label'          => 'Status:',
+    'category_label'        => 'Kategori:',
+    'sla_priority_label'    => 'Prioritas SLA:',
+    'target_dept_label'     => 'Departemen Tujuan:',
+    'deadline_label'        => 'Batas Waktu:',
+    'requester_label'       => 'Pemohon (Requester):',
+    'handler_label'         => 'Teknisi Pelaksana:',
+    'linked_asset_label'    => 'Aset Terkait:',
+    'desc_instruction'      => 'Deskripsi Masalah / Instruksi Perbaikan:',
+    'spareparts_breakdown'  => 'Rincian Penggunaan Suku Cadang & Material:',
+    'no_spareparts_used'    => 'Tidak ada suku cadang / material yang digunakan.',
+    'part_item_code'        => 'Kode Barang',
+    'part_item_name'        => 'Nama Suku Cadang',
+    'part_item_qty'         => 'Jumlah',
+    'part_item_subtotal'    => 'Subtotal (IDR)',
+    'total_material_cost'   => 'TOTAL BIAYA MATERIAL:',
+    'sig_requester'         => 'Pemohon (Requester)',
+    'sig_handler'           => 'Teknisi Pelaksana',
+    'sig_kadep'             => 'Kepala Departemen',
+    'pdf_footer'            => 'Dicetak otomatis oleh Sistem Informasi Work Order & Manajemen Aset V2.0 • Hotel Golden Hill by Golden Tulip Batu • Tanggal: {0}',
+];
