@@ -5,6 +5,28 @@
 
 ---
 
+## 📸 Visual Showcase
+
+<div align="center">
+
+### Executive KPI & Performance Analytics Dashboard
+![Executive Dashboard](docs/screenshots/01-dashboard.png)
+
+<br>
+
+### Work Order Monitoring & SLA Countdown Timer
+![Monitoring & SLA](docs/screenshots/02-sla-timer.png)
+
+<br>
+
+</div>
+
+| 🔍 Asset QR Code Scanner | 🌐 Multi-Language (ID / EN) |
+| :---: | :---: |
+| ![QR Scanner](docs/screenshots/03-qr-scanner.png) | ![Language Switch](docs/screenshots/04-language-switch.png) |
+
+---
+
 ## 1. Arsitektur & Teknologi Sistem
 - **Backend Framework:** PHP 8.2+ dengan CodeIgniter 4 (MVC Architecture)
 - **Basis Data:** MySQL / MariaDB (Database: `ci4_workorder_v2`)
