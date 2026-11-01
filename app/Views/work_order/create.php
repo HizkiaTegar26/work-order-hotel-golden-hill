@@ -54,16 +54,16 @@
                         <select class="form-select" id="id_prioritas" name="id_prioritas" required>
                             <option value=""><?= lang('WorkOrder.field_select_prio') ?></option>
                             <?php foreach ($prioritas as $p): ?>
-                                <option value="<?= $p['id_prioritas'] ?>" <?= (old('id_prioritas') == $p['id_prioritas'] || $p['tingkat_prioritas'] === 'High') ? 'selected' : '' ?>>
+                                <option value="<?= $p['id_prioritas'] ?>" data-name="<?= esc($p['tingkat_prioritas']) ?>" data-hours="<?= $p['target_jam'] ?>" <?= (old('id_prioritas') == $p['id_prioritas'] || $p['tingkat_prioritas'] === 'High') ? 'selected' : '' ?>>
                                     <?= esc(translate_priority($p['tingkat_prioritas'])) ?> — Target: <?= lang('WorkOrder.sla_hours', [$p['target_jam']]) ?> (SLA)
                                 </option>
                             <?php endforeach; ?>
                         </select>
-                        <div class="form-text small text-danger"><?= lang('WorkOrder.field_prio_help') ?></div>
+                        <div id="sla-target-help" class="form-text small text-muted"><?= lang('WorkOrder.field_prio_help') ?></div>
                     </div>
 
                     <!-- Departemen Penanggung Jawab -->
-                    <div class="col-md-6">
+                    <div class="col-12">
                         <label for="id_departemen" class="form-label small fw-semibold text-secondary"><?= lang('WorkOrder.field_dept') ?> <span class="text-danger">*</span></label>
                         <select class="form-select" id="id_departemen" name="id_departemen" required>
                             <option value=""><?= lang('WorkOrder.field_select_dept') ?></option>
@@ -76,7 +76,7 @@
                     </div>
 
                     <!-- Kaitan Aset Hotel (Opsional / Terisi dari Scan) -->
-                    <div class="col-md-6">
+                    <div class="col-12">
                         <label for="id_aset" class="form-label small fw-semibold text-secondary"><?= lang('WorkOrder.field_asset') ?></label>
                         <select class="form-select" id="id_aset" name="id_aset">
                             <option value=""><?= lang('WorkOrder.field_no_asset') ?></option>
@@ -114,4 +114,53 @@
         </div>
     </div>
 </div>
+<?= $this->endSection() ?>
+
+<?= $this->section('scripts') ?>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const prioSelect = document.getElementById('id_prioritas');
+    const prioHelp = document.getElementById('sla-target-help');
+    
+    const prioDetails = {
+        'Emergency': {
+            hours: 1,
+            desc: '<?= current_locale() === 'en' ? 'Target: 1 Hour (Critical / immediate handling required)' : 'Target Waktu: 1 Jam (Penanganan instan darurat)' ?>',
+            badge: 'bg-danger text-white'
+        },
+        'High': {
+            hours: 4,
+            desc: '<?= current_locale() === 'en' ? 'Target: 4 Hours (High priority hotel operational impact)' : 'Target Waktu: 4 Jam (Respon cepat prioritas operasional hotel)' ?>',
+            badge: 'bg-warning text-dark'
+        },
+        'Medium': {
+            hours: 12,
+            desc: '<?= current_locale() === 'en' ? 'Target: 12 Hours (Standard operational resolution)' : 'Target Waktu: 12 Jam (Standar operasional pemeliharaan harian)' ?>',
+            badge: 'bg-info text-dark'
+        },
+        'Low': {
+            hours: 24,
+            desc: '<?= current_locale() === 'en' ? 'Target: 24 Hours (Routine maintenance / low urgency)' : 'Target Waktu: 24 Jam (Pemeliharaan preventif / tugas rutin)' ?>',
+            badge: 'bg-secondary text-white'
+        }
+    };
+
+    function updateSlaHelp() {
+        if (!prioSelect || !prioHelp) return;
+        const selectedOpt = prioSelect.options[prioSelect.selectedIndex];
+        const prioName = selectedOpt ? selectedOpt.getAttribute('data-name') : null;
+        if (prioName && prioDetails[prioName]) {
+            const item = prioDetails[prioName];
+            prioHelp.innerHTML = `<span class="badge ${item.badge} me-1">${prioName} • ${item.hours} <?= current_locale() === 'en' ? 'Hours' : 'Jam' ?></span> <span>${item.desc}</span>`;
+        } else {
+            prioHelp.innerHTML = `<?= lang('WorkOrder.field_prio_help') ?>`;
+        }
+    }
+
+    if (prioSelect) {
+        prioSelect.addEventListener('change', updateSlaHelp);
+        updateSlaHelp();
+    }
+});
+</script>
 <?= $this->endSection() ?>

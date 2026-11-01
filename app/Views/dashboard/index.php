@@ -143,25 +143,11 @@
                 <h6 class="fw-bold mb-0 text-dark"><?= lang('Dashboard.chart_sla_title') ?></h6>
                 <span class="badge bg-light text-dark border"><?= lang('Dashboard.chart_sla_badge') ?></span>
             </div>
-            <div style="height: 250px; position: relative;">
+            <div style="height: 280px; position: relative;" class="d-flex align-items-center justify-content-center">
                 <canvas id="slaStatusChart"></canvas>
-            </div>
-            <div class="d-flex justify-content-around text-center mt-3 pt-2 border-top">
-                <div>
-                    <small class="text-muted d-block"><?= lang('WorkOrder.status_completed') ?></small>
-                    <span class="fw-bold text-success"><?= $kpi['total_selesai'] ?></span>
-                </div>
-                <div>
-                    <small class="text-muted d-block"><?= lang('WorkOrder.status_process') ?></small>
-                    <span class="fw-bold text-warning"><?= $kpi['total_proses'] ?></span>
-                </div>
-                <div>
-                    <small class="text-muted d-block"><?= lang('WorkOrder.status_new') ?></small>
-                    <span class="fw-bold text-primary"><?= $kpi['total_baru'] ?></span>
-                </div>
-                <div>
-                    <small class="text-muted d-block"><?= lang('WorkOrder.status_escalated') ?></small>
-                    <span class="fw-bold text-danger"><?= $kpi['total_escalated'] ?></span>
+                <div class="position-absolute top-50 start-50 translate-middle text-center" style="pointer-events: none; margin-top: -16px;">
+                    <div class="fw-bold fs-3 text-dark lh-1"><?= (int)$kpi['total_wo'] ?></div>
+                    <small class="text-muted text-uppercase fw-semibold" style="font-size: 0.65rem; letter-spacing: 0.5px;"><?= current_locale() === 'en' ? 'Total Tickets' : 'Total Tiket' ?></small>
                 </div>
             </div>
         </div>
@@ -203,14 +189,14 @@
                 <a href="<?= base_url('aset') ?>" class="btn btn-sm btn-outline-primary" style="font-size: 0.75rem;"><?= lang('Dashboard.all_assets') ?></a>
             </div>
             <div class="table-responsive">
-                <table class="table table-sm table-hover align-middle mb-0">
+                <table class="table table-sm table-hover align-middle mb-0" style="min-width: 480px;">
                     <thead class="table-light small">
                         <tr>
-                            <th><?= lang('Aset.col_code') ?></th>
-                            <th><?= lang('Aset.col_name') ?></th>
-                            <th><?= lang('WorkOrder.col_dept') ?></th>
-                            <th class="text-center"><?= current_locale() === 'en' ? 'Incidents' : 'Insiden' ?></th>
-                            <th class="text-end"><?= lang('Dashboard.total_cost_label') ?></th>
+                            <th style="width: 20%;"><?= lang('Aset.col_code') ?></th>
+                            <th style="width: 32%;"><?= lang('Aset.col_name') ?></th>
+                            <th style="width: 20%;"><?= lang('WorkOrder.col_dept') ?></th>
+                            <th class="text-center" style="width: 14%;"><?= current_locale() === 'en' ? 'Incidents' : 'Insiden' ?></th>
+                            <th class="text-end" style="width: 14%;"><?= lang('Dashboard.total_cost_label') ?></th>
                         </tr>
                     </thead>
                     <tbody class="small">
@@ -247,17 +233,17 @@
     </div>
 
     <div class="table-responsive">
-        <table class="table table-hover align-middle mb-0">
+        <table class="table table-hover align-middle mb-0" style="min-width: 860px;">
             <thead class="table-light small">
                 <tr>
-                    <th><?= lang('WorkOrder.col_code') ?></th>
-                    <th><?= lang('WorkOrder.col_title') ?></th>
-                    <th><?= lang('WorkOrder.col_dept') ?></th>
-                    <th><?= lang('WorkOrder.col_priority') ?></th>
-                    <th><?= lang('WorkOrder.col_status') ?></th>
-                    <th><?= lang('WorkOrder.col_sla') ?></th>
-                    <th><?= lang('WorkOrder.col_handler') ?></th>
-                    <th class="text-center"><?= lang('WorkOrder.col_actions') ?></th>
+                    <th style="width: 12%;"><?= lang('WorkOrder.col_code') ?></th>
+                    <th style="width: 24%;"><?= lang('WorkOrder.col_title') ?></th>
+                    <th style="width: 13%;"><?= lang('WorkOrder.col_dept') ?></th>
+                    <th style="width: 13%;"><?= lang('WorkOrder.col_priority') ?></th>
+                    <th style="width: 10%;"><?= lang('WorkOrder.col_status') ?></th>
+                    <th style="width: 13%;"><?= lang('WorkOrder.col_sla') ?></th>
+                    <th style="width: 9%;"><?= lang('WorkOrder.col_handler') ?></th>
+                    <th class="text-center" style="width: 6%;"><?= lang('WorkOrder.col_actions') ?></th>
                 </tr>
             </thead>
             <tbody>
@@ -313,11 +299,19 @@
                             </td>
                             <td>
                                 <?php $sla = $wo['sla_info']; ?>
-                                <span class="badge <?= $sla['badge_class'] ?>">
-                                    <?= $sla['badge_text'] ?>
-                                </span>
-                                <?php if ($wo['deadline']): ?>
-                                    <div class="text-muted" style="font-size: 0.7rem;"><?= lang('Dashboard.target_label', [date('d/m H:i', strtotime($wo['deadline']))]) ?></div>
+                                <?php if ((int)$wo['id_status'] === 3): ?>
+                                    <span class="text-muted small">-</span>
+                                <?php elseif ((int)$wo['id_status'] === 6): ?>
+                                    <span class="badge bg-light text-secondary border">
+                                        <?= $sla['badge_text'] ?>
+                                    </span>
+                                <?php else: ?>
+                                    <span class="badge <?= $sla['badge_class'] ?>">
+                                        <?= $sla['badge_text'] ?>
+                                    </span>
+                                    <?php if ($wo['deadline']): ?>
+                                        <div class="text-muted" style="font-size: 0.7rem;"><?= lang('Dashboard.target_label', [date('d/m H:i', strtotime($wo['deadline']))]) ?></div>
+                                    <?php endif; ?>
                                 <?php endif; ?>
                             </td>
                             <td>
@@ -349,7 +343,12 @@
         new Chart(ctxSla, {
             type: 'doughnut',
             data: {
-                labels: ['<?= lang('WorkOrder.status_completed') ?>', '<?= lang('WorkOrder.status_process') ?>', '<?= lang('WorkOrder.status_new') ?>', '<?= lang('WorkOrder.status_escalated') ?>'],
+                labels: [
+                    '<?= lang('WorkOrder.status_completed') ?> (<?= $kpi['total_selesai'] ?>)',
+                    '<?= lang('WorkOrder.status_process') ?> (<?= $kpi['total_proses'] ?>)',
+                    '<?= lang('WorkOrder.status_new') ?> (<?= $kpi['total_baru'] ?>)',
+                    '<?= lang('WorkOrder.status_escalated') ?> (<?= $kpi['total_escalated'] ?>)'
+                ],
                 datasets: [{
                     data: [
                         <?= $kpi['total_selesai'] ?>,
@@ -368,10 +367,10 @@
                 plugins: {
                     legend: {
                         position: 'bottom',
-                        labels: { boxWidth: 12, font: { size: 11, family: 'Plus Jakarta Sans' } }
+                        labels: { boxWidth: 12, padding: 12, font: { size: 11, family: 'Plus Jakarta Sans' } }
                     }
                 },
-                cutout: '70%'
+                cutout: '72%'
             }
         });
 
@@ -401,7 +400,16 @@
                         beginAtZero: true,
                         ticks: {
                             callback: function(value) {
-                                return 'Rp ' + (value / 1000).toLocaleString() + 'k';
+                                if (value >= 1000000) {
+                                    const jt = (value / 1000000);
+                                    const str = (jt % 1 === 0 ? jt : jt.toFixed(1)).toString().replace('.', ',');
+                                    return 'Rp ' + str + ' Jt';
+                                } else if (value >= 1000) {
+                                    const rb = (value / 1000);
+                                    const str = (rb % 1 === 0 ? rb : rb.toFixed(0)).toString().replace('.', ',');
+                                    return 'Rp ' + str + ' Rb';
+                                }
+                                return 'Rp ' + value.toLocaleString('id-ID');
                             },
                             font: { family: 'Plus Jakarta Sans' }
                         }

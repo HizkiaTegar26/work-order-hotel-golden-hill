@@ -44,9 +44,9 @@
             </select>
         </div>
 
-        <div class="col-md-2 col-sm-6">
+        <div class="col-lg-2 col-md-4 col-sm-6" style="min-width: 185px;">
             <label class="form-label small fw-semibold text-secondary mb-1"><?= lang('WorkOrder.filter_priority') ?></label>
-            <select name="prio" class="form-select form-select-sm">
+            <select name="prio" class="form-select form-select-sm" style="min-width: 175px;">
                 <option value=""><?= lang('WorkOrder.filter_all_priority') ?></option>
                 <?php foreach ($prioritas as $p): ?>
                     <option value="<?= $p['id_prioritas'] ?>" <?= ($currentFilters['prio'] == $p['id_prioritas']) ? 'selected' : '' ?>>
@@ -143,11 +143,19 @@
                         </td>
                         <td>
                             <?php $sla = $wo['sla_info']; ?>
-                            <span class="badge <?= $sla['badge_class'] ?>">
-                                <?= $sla['badge_text'] ?>
-                            </span>
-                            <?php if ($wo['deadline']): ?>
-                                <div class="text-muted" style="font-size: 0.7rem;">Deadline: <?= date('d/m H:i', strtotime($wo['deadline'])) ?></div>
+                            <?php if ((int)$wo['id_status'] === 3): ?>
+                                <span class="text-muted small">-</span>
+                            <?php elseif ((int)$wo['id_status'] === 6): ?>
+                                <span class="badge bg-light text-secondary border">
+                                    <?= $sla['badge_text'] ?>
+                                </span>
+                            <?php else: ?>
+                                <span class="badge <?= $sla['badge_class'] ?>">
+                                    <?= $sla['badge_text'] ?>
+                                </span>
+                                <?php if ($wo['deadline']): ?>
+                                    <div class="text-muted" style="font-size: 0.7rem;">Deadline: <?= date('d/m H:i', strtotime($wo['deadline'])) ?></div>
+                                <?php endif; ?>
                             <?php endif; ?>
                         </td>
                         <td>

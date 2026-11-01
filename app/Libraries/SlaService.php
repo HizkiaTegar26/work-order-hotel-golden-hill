@@ -29,10 +29,20 @@ class SlaService
     {
         // Status 6: Selesai, Status 3: Ditolak
         if ((int)$wo['id_status'] === 6) {
+            $durationStr = '';
+            if (!empty($wo['durasi_menit_pengerjaan'])) {
+                $hours = floor((int)$wo['durasi_menit_pengerjaan'] / 60);
+                $mins = (int)$wo['durasi_menit_pengerjaan'] % 60;
+                $durationStr = $hours > 0 ? "{$hours}j {$mins}m" : "{$mins}m";
+                $badgeText = current_locale() === 'en' ? "Done in {$durationStr}" : "Selesai dlm {$durationStr}";
+            } else {
+                $badgeText = current_locale() === 'en' ? 'Resolved' : 'Tuntas';
+            }
+
             return [
                 'status' => 'completed',
-                'badge_class' => 'bg-success',
-                'badge_text' => 'Tuntas / Selesai',
+                'badge_class' => 'bg-light text-secondary border',
+                'badge_text' => $badgeText,
                 'is_overdue' => false,
                 'remaining_seconds' => 0,
                 'progress_percent' => 100,
@@ -42,8 +52,8 @@ class SlaService
         if ((int)$wo['id_status'] === 3) {
             return [
                 'status' => 'rejected',
-                'badge_class' => 'bg-secondary',
-                'badge_text' => 'Ditolak',
+                'badge_class' => 'text-muted',
+                'badge_text' => '-',
                 'is_overdue' => false,
                 'remaining_seconds' => 0,
                 'progress_percent' => 0,

@@ -397,12 +397,9 @@
                     </ul>
                 </div>
 
-                <!-- Action Buttons -->
+                <!-- Action Buttons & Utilities -->
                 <a href="<?= base_url('scan') ?>" class="btn btn-sm btn-outline-dark rounded-pill px-3">
                     <?= lang('Navigation.quick_scan') ?>
-                </a>
-                <a href="<?= base_url('workorder/create') ?>" class="btn btn-sm btn-gold rounded-pill px-3">
-                    <?= lang('Navigation.new_wo') ?>
                 </a>
                 <button type="button" class="btn btn-sm btn-link text-secondary text-decoration-none px-2" onclick="openOnboardingModal(true)" title="<?= current_locale() === 'en' ? 'Interactive Operations Guide' : 'Panduan Operasional Interaktif' ?>">
                     <?= current_locale() === 'en' ? 'Guide' : 'Panduan' ?>
