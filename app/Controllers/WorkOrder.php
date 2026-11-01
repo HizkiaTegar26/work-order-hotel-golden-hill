@@ -168,10 +168,14 @@ class WorkOrder extends BaseController
             $fotoTroubleName = 'uploads/trouble/' . $newName;
         }
 
+        $rawDeskripsi = trim($this->request->getPost('deskripsi'));
+        $lokasiFisik  = trim($this->request->getPost('lokasi_spesifik') ?? '');
+        $finalDeskripsi = !empty($lokasiFisik) ? "[Lokasi: {$lokasiFisik}] " . $rawDeskripsi : $rawDeskripsi;
+
         $woData = [
             'kode_wo'                 => $kodeWo,
             'judul_wo'                => trim($this->request->getPost('judul_wo')),
-            'deskripsi'               => trim($this->request->getPost('deskripsi')),
+            'deskripsi'               => $finalDeskripsi,
             'id_user'                 => $userId,
             'id_kategori'             => (int) $this->request->getPost('id_kategori'),
             'id_status'               => 1, // Baru

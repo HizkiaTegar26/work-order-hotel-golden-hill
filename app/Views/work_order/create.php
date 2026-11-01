@@ -89,6 +89,15 @@
                         <div class="form-text small"><?= current_locale() === 'en' ? 'Or use <a href="' . base_url('scan') . '" class="text-decoration-none">QR Camera Scanner</a> for instant selection.' : 'Atau gunakan <a href="' . base_url('scan') . '" class="text-decoration-none">Scanner Kamera QR</a> untuk memilih instan.' ?></div>
                     </div>
 
+                    <!-- Lokasi Fisik / Nomor Kamar / Zona -->
+                    <div class="col-12">
+                        <label for="lokasi_spesifik" class="form-label small fw-semibold text-secondary">
+                            <?= current_locale() === 'en' ? 'Physical Location / Room Number / Zone' : 'Lokasi Fisik / Nomor Kamar / Zona' ?>
+                        </label>
+                        <input type="text" class="form-control" id="lokasi_spesifik" name="lokasi_spesifik" placeholder="<?= current_locale() === 'en' ? 'e.g. Room 302, Executive Lounge, North Pool, Lobby Restroom' : 'Contoh: Kamar 302, Executive Lounge, Kolam Renang Utara, Toilet Lobby' ?>" value="<?= esc(old('lokasi_spesifik', $selectedAsset['lokasi_spesifik'] ?? '')) ?>">
+                        <div class="form-text small"><?= current_locale() === 'en' ? 'Specify the exact room, floor, or operational zone where the issue occurred.' : 'Sebutkan lantai, nomor kamar, atau area spesifik tempat kendala terjadi.' ?></div>
+                    </div>
+
                     <!-- Deskripsi Lengkap -->
                     <div class="col-12">
                         <label for="deskripsi" class="form-label small fw-semibold text-secondary"><?= lang('WorkOrder.field_description') ?> <span class="text-danger">*</span></label>

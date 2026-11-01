@@ -26,18 +26,18 @@
                 <div id="reader" style="width: 100%; max-width: 480px; margin: 0 auto; border-radius: 12px; overflow: hidden; background: #0f172a;" class="border shadow-sm"></div>
             </div>
 
-            <!-- Camera Control Buttons (Touch Target >= 48px) -->
-            <div class="d-flex flex-wrap justify-content-center gap-2 mt-3">
-                <button type="button" class="btn btn-outline-primary btn-mobile-touch" id="startCameraBtn" style="min-height: 48px;">
+            <!-- Camera Control Buttons (Touch Target >= 48px, Symmetrical Balanced Layout) -->
+            <div class="d-flex flex-wrap justify-content-center align-items-center gap-2 mt-3 mx-auto" style="max-width: 480px;">
+                <button type="button" class="btn btn-outline-primary btn-mobile-touch flex-fill" id="startCameraBtn" style="min-height: 48px; min-width: 220px;">
                     <?= lang('Aset.open_camera') ?>
                 </button>
-                <button type="button" class="btn btn-outline-danger btn-mobile-touch" id="stopCameraBtn" style="display: none; min-height: 48px;">
+                <button type="button" class="btn btn-outline-danger btn-mobile-touch flex-fill" id="stopCameraBtn" style="display: none; min-height: 48px; min-width: 140px;">
                     <?= lang('Aset.close_camera') ?>
                 </button>
-                <button type="button" class="btn btn-outline-warning btn-mobile-touch text-dark" id="torchBtn" style="display: none; min-height: 48px;" onclick="toggleTorch()">
+                <button type="button" class="btn btn-outline-warning btn-mobile-touch text-dark flex-fill" id="torchBtn" style="display: none; min-height: 48px; min-width: 140px;" onclick="toggleTorch()">
                     <?= lang('Aset.torch_toggle') ?>
                 </button>
-                <button type="button" class="btn btn-outline-secondary btn-mobile-touch" id="switchCameraBtn" style="display: none; min-height: 48px;" onclick="switchCamera()">
+                <button type="button" class="btn btn-outline-secondary btn-mobile-touch flex-fill" id="switchCameraBtn" style="display: none; min-height: 48px; min-width: 140px;" onclick="switchCamera()">
                     <?= lang('Aset.switch_camera') ?>
                 </button>
             </div>
