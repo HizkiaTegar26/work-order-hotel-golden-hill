@@ -67,8 +67,8 @@
 
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: var(--bg-light);
-            color: #334155;
+            background-color: #f8fafc;
+            color: #1e293b;
             min-height: 100vh;
             display: flex;
         }
@@ -83,7 +83,7 @@
             flex-direction: column;
             transition: all 0.3s ease;
             z-index: 1040;
-            border-right: 1px solid rgba(255, 255, 255, 0.05);
+            border-right: 1px solid rgba(255, 255, 255, 0.06);
         }
 
         #sidebar .brand-box {
@@ -103,29 +103,27 @@
         }
 
         .brand-badge {
-            background: rgba(217, 119, 6, 0.2);
+            background: rgba(217, 119, 6, 0.15);
             color: var(--accent-gold-light);
-            border: 1px solid rgba(251, 191, 36, 0.3);
-            border-radius: 4px;
+            border: 1px solid rgba(251, 191, 36, 0.25);
+            border-radius: 6px;
             font-size: 0.65rem;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            padding: 2px 6px;
-            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            padding: 2px 7px;
         }
 
         .nav-section-title {
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #94a3b8;
-            font-weight: 700;
-            padding: 1rem 1.25rem 0.5rem;
+            font-size: 0.72rem;
+            letter-spacing: 0.5px;
+            color: #64748b;
+            font-weight: 600;
+            padding: 1.1rem 1.1rem 0.4rem;
         }
 
         .sidebar-nav {
             list-style: none;
-            padding: 0.5rem 0.75rem;
+            padding: 0.5rem 0.85rem;
             margin: 0;
             flex-grow: 1;
             overflow-y: auto;
@@ -134,34 +132,42 @@
         .sidebar-nav .nav-link {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
-            color: #cbd5e1;
-            padding: 0.65rem 0.85rem;
-            border-radius: 0.5rem;
+            gap: 0.8rem;
+            color: #94a3b8;
+            padding: 0.68rem 1rem;
+            border-radius: 12px;
             font-size: 0.88rem;
             font-weight: 500;
             text-decoration: none;
-            transition: all 0.2s ease;
-            margin-bottom: 0.25rem;
+            transition: all 0.2s ease-in-out;
+            margin-bottom: 0.3rem;
+            position: relative;
         }
 
         .sidebar-nav .nav-link:hover {
-            background-color: var(--sidebar-hover);
-            color: #ffffff;
+            background-color: rgba(255, 255, 255, 0.06);
+            color: #f8fafc;
             transform: translateX(3px);
         }
 
         .sidebar-nav .nav-link.active {
-            background: linear-gradient(90deg, rgba(217, 119, 6, 0.9) 0%, rgba(180, 83, 9, 0.9) 100%);
-            color: #ffffff;
+            background: rgba(217, 119, 6, 0.16);
+            color: #fbbf24;
             font-weight: 600;
-            box-shadow: 0 4px 10px rgba(217, 119, 6, 0.3);
+            border-radius: 12px;
+            border: 1px solid rgba(251, 191, 36, 0.25);
+            box-shadow: 0 2px 10px rgba(217, 119, 6, 0.12);
+        }
+
+        .sidebar-nav .nav-link.active i {
+            color: #fbbf24;
         }
 
         .sidebar-nav .nav-link i {
             font-size: 1.1rem;
             width: 22px;
             text-align: center;
+            transition: color 0.2s ease;
         }
 
         .user-card-sidebar {
@@ -177,34 +183,156 @@
             flex-direction: column;
             min-width: 0;
             overflow-x: hidden;
+            background-color: #f8fafc;
         }
 
         /* Top Navbar */
         .top-navbar {
             background: #ffffff;
             height: 70px;
-            border-bottom: 1px solid #e2e8f0;
-            padding: 0 1.5rem;
+            border-bottom: 1px solid #edf2f7;
+            padding: 0 1.75rem;
             display: flex;
             align-items: center;
             justify-content: space-between;
             position: sticky;
             top: 0;
             z-index: 1020;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+            box-shadow: 0 1px 3px rgba(15, 23, 42, 0.03);
         }
 
         /* Badges & Cards */
-        .card-custom {
+        .card-custom,
+        .card {
             background: #ffffff;
-            border-radius: 0.85rem;
-            border: 1px solid #e2e8f0;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border-radius: 16px;
+            border: 1px solid #edf2f7;
+            box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05);
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
         }
 
         .card-custom:hover {
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.07);
+            box-shadow: 0 10px 25px -3px rgba(15, 23, 42, 0.08);
+            border-color: #e2e8f0;
+        }
+
+        /* Spacious & Fluid SaaS Tables */
+        .table {
+            --bs-table-bg: transparent;
+            margin-bottom: 0;
+        }
+
+        .table th {
+            padding: 14px 18px !important;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #64748b;
+            background-color: #f8fafc;
+            border-top: none !important;
+            border-bottom: 1px solid #e2e8f0 !important;
+            border-left: none !important;
+            border-right: none !important;
+            white-space: nowrap;
+            letter-spacing: 0.3px;
+        }
+
+        .table td {
+            padding: 14px 18px !important;
+            font-size: 0.86rem;
+            color: #334155;
+            vertical-align: middle;
+            border-top: none !important;
+            border-bottom: 1px solid #f1f5f9 !important;
+            border-left: none !important;
+            border-right: none !important;
+            transition: background-color 0.15s ease-in-out;
+        }
+
+        .table tbody tr:hover td {
+            background-color: #f8fafc !important;
+        }
+
+        .table tbody tr:last-child td {
+            border-bottom: none !important;
+        }
+
+        /* Modernized DataTables Controls */
+        .dataTables_wrapper .dataTables_length,
+        .dataTables_wrapper .dataTables_filter {
+            margin-bottom: 1.25rem;
+            color: #64748b;
+            font-size: 0.85rem;
+        }
+
+        .dataTables_wrapper .dataTables_length select {
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 0.35rem 1.8rem 0.35rem 0.75rem;
+            font-size: 0.85rem;
+            color: #334155;
+            outline: none;
+            background-color: #ffffff;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .dataTables_wrapper .dataTables_length select:focus {
+            border-color: #d97706;
+            box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.12);
+        }
+
+        .dataTables_wrapper .dataTables_filter input {
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
+            padding: 0.4rem 1rem;
+            font-size: 0.85rem;
+            color: #334155;
+            outline: none;
+            background-color: #ffffff;
+            min-width: 220px;
+            transition: all 0.2s ease;
+        }
+
+        .dataTables_wrapper .dataTables_filter input:focus {
+            border-color: #d97706;
+            box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.12);
+            background-color: #ffffff;
+        }
+
+        .dataTables_wrapper .dataTables_info {
+            padding-top: 1rem;
+            color: #64748b;
+            font-size: 0.82rem;
+        }
+
+        .dataTables_wrapper .dataTables_paginate {
+            padding-top: 0.85rem;
+        }
+
+        .dataTables_wrapper .dataTables_paginate .pagination {
+            gap: 4px;
+        }
+
+        .dataTables_wrapper .dataTables_paginate .page-item .page-link {
+            border-radius: 8px !important;
+            border: 1px solid #e2e8f0;
+            color: #475569;
+            font-size: 0.82rem;
+            font-weight: 500;
+            padding: 0.4rem 0.75rem;
+            transition: all 0.2s ease;
+        }
+
+        .dataTables_wrapper .dataTables_paginate .page-item.active .page-link {
+            background-color: #d97706 !important;
+            border-color: #d97706 !important;
+            color: #ffffff !important;
+            box-shadow: 0 2px 8px rgba(217, 119, 6, 0.25);
+        }
+
+        .dataTables_wrapper .dataTables_paginate .page-item .page-link:hover:not(.active) {
+            background-color: #f1f5f9;
+            border-color: #cbd5e1;
+            color: #0f172a;
         }
 
         .btn-gold {
@@ -375,7 +503,7 @@
                         <?= $currentLocale === 'en' ? 'EN' : 'ID' ?>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0" style="font-size: 0.85rem;">
-                        <li class="dropdown-header small text-muted text-uppercase fw-bold"><?= lang('Navigation.language') ?></li>
+                        <li class="dropdown-header small text-muted fw-bold"><?= lang('Navigation.language') ?></li>
                         <li>
                             <a class="dropdown-item d-flex align-items-center gap-2 py-2 <?= $currentLocale === 'id' ? 'active fw-bold' : '' ?>" href="<?= base_url('lang/id') ?>">
                                 <span style="font-size: 1.15rem;">🇮🇩</span>

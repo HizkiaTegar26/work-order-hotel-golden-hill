@@ -26,11 +26,11 @@
         <div class="card card-custom p-3 h-100 border-start border-4 border-primary">
             <div class="d-flex justify-content-between align-items-start">
                 <div>
-                    <span class="text-muted small fw-semibold text-uppercase"><?= lang('Dashboard.total_wo') ?></span>
-                    <h3 class="fw-bold text-dark mt-1 mb-0"><?= number_format($kpi['total_wo']) ?></h3>
+                    <span class="small fw-semibold" style="color: #64748b;"><?= lang('Dashboard.total_wo') ?></span>
+                    <h3 class="fw-bold text-dark mt-1 mb-0" style="font-weight: 700;"><?= number_format($kpi['total_wo']) ?></h3>
                 </div>
             </div>
-            <small class="text-muted mt-2 d-block"><?= lang('Dashboard.all_depts') ?></small>
+            <small class="text-muted mt-2 d-block" style="font-size: 0.78rem;"><?= lang('Dashboard.all_depts') ?></small>
         </div>
     </div>
 
@@ -38,11 +38,11 @@
         <div class="card card-custom p-3 h-100 border-start border-4 border-warning">
             <div class="d-flex justify-content-between align-items-start">
                 <div>
-                    <span class="text-muted small fw-semibold text-uppercase"><?= lang('Dashboard.in_progress') ?></span>
-                    <h3 class="fw-bold text-warning mt-1 mb-0"><?= number_format($kpi['total_proses']) ?></h3>
+                    <span class="small fw-semibold" style="color: #64748b;"><?= lang('Dashboard.in_progress') ?></span>
+                    <h3 class="fw-bold text-warning mt-1 mb-0" style="font-weight: 700;"><?= number_format($kpi['total_proses']) ?></h3>
                 </div>
             </div>
-            <small class="text-muted mt-2 d-block"><?= lang('Dashboard.waiting_review', [number_format($kpi['total_baru'])]) ?></small>
+            <small class="text-muted mt-2 d-block" style="font-size: 0.78rem;"><?= lang('Dashboard.waiting_review', [number_format($kpi['total_baru'])]) ?></small>
         </div>
     </div>
 
@@ -50,11 +50,11 @@
         <div class="card card-custom p-3 h-100 border-start border-4 border-success">
             <div class="d-flex justify-content-between align-items-start">
                 <div>
-                    <span class="text-muted small fw-semibold text-uppercase"><?= lang('Dashboard.completed') ?></span>
-                    <h3 class="fw-bold text-success mt-1 mb-0"><?= number_format($kpi['total_selesai']) ?></h3>
+                    <span class="small fw-semibold" style="color: #64748b;"><?= lang('Dashboard.completed') ?></span>
+                    <h3 class="fw-bold text-success mt-1 mb-0" style="font-weight: 700;"><?= number_format($kpi['total_selesai']) ?></h3>
                 </div>
             </div>
-            <small class="text-muted mt-2 d-block"><?= lang('Dashboard.compliance', [$kpi['sla_compliance_rate']]) ?></small>
+            <small class="text-muted mt-2 d-block" style="font-size: 0.78rem;"><?= lang('Dashboard.compliance', [$kpi['sla_compliance_rate']]) ?></small>
         </div>
     </div>
 
@@ -62,11 +62,11 @@
         <div class="card card-custom p-3 h-100 border-start border-4 border-danger <?= $kpi['total_escalated'] > 0 ? 'bg-danger bg-opacity-10' : '' ?>">
             <div class="d-flex justify-content-between align-items-start">
                 <div>
-                    <span class="text-muted small fw-semibold text-uppercase"><?= lang('Dashboard.escalated_overdue') ?></span>
-                    <h3 class="fw-bold text-danger mt-1 mb-0"><?= number_format($kpi['total_escalated']) ?></h3>
+                    <span class="small fw-semibold" style="color: #64748b;"><?= lang('Dashboard.escalated_overdue') ?></span>
+                    <h3 class="fw-bold text-danger mt-1 mb-0" style="font-weight: 700;"><?= number_format($kpi['total_escalated']) ?></h3>
                 </div>
             </div>
-            <small class="text-danger mt-2 d-block fw-semibold">
+            <small class="text-danger mt-2 d-block fw-semibold" style="font-size: 0.78rem;">
                 <?= $kpi['total_escalated'] > 0 ? lang('Dashboard.urgent_attention') : lang('Dashboard.no_delays') ?>
             </small>
         </div>
@@ -79,14 +79,14 @@
         <div class="card card-custom p-3 bg-white">
             <div class="d-flex align-items-center gap-3">
                 <div>
-                    <div class="text-muted small"><?= lang('Dashboard.avg_response') ?></div>
-                    <div class="fs-4 fw-bold text-dark">
+                    <div class="small fw-semibold" style="color: #64748b;"><?= lang('Dashboard.avg_response') ?></div>
+                    <div class="fs-4 fw-bold text-dark" style="font-weight: 700; letter-spacing: -0.3px;">
                         <?php 
                             $respMin = $kpi['avg_response_min'];
                             echo $respMin >= 60 ? lang('Dashboard.hours', [round($respMin / 60, 1)]) : lang('Dashboard.minutes', [$respMin]);
                         ?>
                     </div>
-                    <small class="text-muted" style="font-size: 0.72rem;"><?= lang('Dashboard.avg_response_sub') ?></small>
+                    <small class="text-muted" style="font-size: 0.75rem; color: #94a3b8;"><?= lang('Dashboard.avg_response_sub') ?></small>
                 </div>
             </div>
         </div>
@@ -96,14 +96,14 @@
         <div class="card card-custom p-3 bg-white">
             <div class="d-flex align-items-center gap-3">
                 <div>
-                    <div class="text-muted small"><?= lang('Dashboard.avg_resolution') ?></div>
-                    <div class="fs-4 fw-bold text-dark">
+                    <div class="small fw-semibold" style="color: #64748b;"><?= lang('Dashboard.avg_resolution') ?></div>
+                    <div class="fs-4 fw-bold text-dark" style="font-weight: 700; letter-spacing: -0.3px;">
                         <?php 
                             $resMin = $kpi['avg_resolution_min'];
                             echo $resMin >= 60 ? lang('Dashboard.hours', [round($resMin / 60, 1)]) : lang('Dashboard.minutes', [$resMin]);
                         ?>
                     </div>
-                    <small class="text-muted" style="font-size: 0.72rem;"><?= lang('Dashboard.avg_resolution_sub') ?></small>
+                    <small class="text-muted" style="font-size: 0.75rem; color: #94a3b8;"><?= lang('Dashboard.avg_resolution_sub') ?></small>
                 </div>
             </div>
         </div>
@@ -113,9 +113,9 @@
         <div class="card card-custom p-3 bg-white">
             <div class="d-flex align-items-center gap-3">
                 <div>
-                    <div class="text-muted small"><?= lang('Dashboard.sla_compliance') ?></div>
-                    <div class="fs-4 fw-bold text-success"><?= $kpi['sla_compliance_rate'] ?>%</div>
-                    <small class="text-muted" style="font-size: 0.72rem;"><?= lang('Dashboard.sla_compliance_sub') ?></small>
+                    <div class="small fw-semibold" style="color: #64748b;"><?= lang('Dashboard.sla_compliance') ?></div>
+                    <div class="fs-4 fw-bold text-success" style="font-weight: 700; letter-spacing: -0.3px;"><?= $kpi['sla_compliance_rate'] ?>%</div>
+                    <small class="text-muted" style="font-size: 0.75rem; color: #94a3b8;"><?= lang('Dashboard.sla_compliance_sub') ?></small>
                 </div>
             </div>
         </div>
@@ -125,9 +125,9 @@
         <div class="card card-custom p-3 bg-white">
             <div class="d-flex align-items-center gap-3">
                 <div>
-                    <div class="text-muted small"><?= lang('Dashboard.sparepart_cost') ?></div>
-                    <div class="fs-4 fw-bold text-dark">Rp <?= number_format($kpi['total_sparepart_cost'], 0, ',', '.') ?></div>
-                    <small class="text-muted" style="font-size: 0.72rem;"><?= lang('Dashboard.sparepart_cost_sub') ?></small>
+                    <div class="small fw-semibold" style="color: #64748b;"><?= lang('Dashboard.sparepart_cost') ?></div>
+                    <div class="fs-4 fw-bold text-dark" style="font-weight: 700; letter-spacing: -0.3px;">Rp <?= number_format($kpi['total_sparepart_cost'], 0, ',', '.') ?></div>
+                    <small class="text-muted" style="font-size: 0.75rem; color: #94a3b8;"><?= lang('Dashboard.sparepart_cost_sub') ?></small>
                 </div>
             </div>
         </div>
@@ -147,7 +147,7 @@
                 <canvas id="slaStatusChart"></canvas>
                 <div class="position-absolute top-50 start-50 translate-middle text-center" style="pointer-events: none; margin-top: -16px;">
                     <div class="fw-bold fs-3 text-dark lh-1"><?= (int)$kpi['total_wo'] ?></div>
-                    <small class="text-muted text-uppercase fw-semibold" style="font-size: 0.65rem; letter-spacing: 0.5px;"><?= current_locale() === 'en' ? 'Total Tickets' : 'Total Tiket' ?></small>
+                    <small class="text-muted fw-semibold" style="font-size: 0.72rem; letter-spacing: 0.3px;"><?= current_locale() === 'en' ? 'Total Tickets' : 'Total Tiket' ?></small>
                 </div>
             </div>
         </div>

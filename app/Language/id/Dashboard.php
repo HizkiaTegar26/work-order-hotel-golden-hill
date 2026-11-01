@@ -12,7 +12,7 @@ return [
     'all_depts'             => 'Seluruh departemen hotel',
     'in_progress'           => 'Dalam Proses',
     'waiting_review'        => '{0} menunggu review',
-    'completed'             => 'Tuntas / Selesai',
+    'completed'             => 'Tuntas & Selesai',
     'compliance'            => 'Kepatuhan: {0}%',
     'escalated_overdue'     => 'Escalated / Overdue',
     'urgent_attention'      => 'Perhatian Darurat!',

@@ -59,9 +59,8 @@
             border-radius: 50px;
             padding: 0.25rem 0.85rem;
             font-size: 0.75rem;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 0.3px;
             margin-bottom: 0.75rem;
         }
         .btn-gold {

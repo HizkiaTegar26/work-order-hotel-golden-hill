@@ -66,7 +66,7 @@
         <div class="card card-custom p-4 mb-4">
             <h5 class="fw-bold text-dark mb-3"><?= esc($wo['judul_wo']) ?></h5>
             
-            <label class="small fw-semibold text-muted text-uppercase mb-1"><?= lang('WorkOrder.section_problem_desc') ?></label>
+            <label class="small fw-semibold text-muted mb-1"><?= lang('WorkOrder.section_problem_desc') ?></label>
             <div class="p-3 bg-light rounded-3 text-secondary mb-4" style="white-space: pre-line; line-height: 1.6;">
                 <?= esc($wo['deskripsi']) ?>
             </div>
@@ -82,7 +82,7 @@
             <!-- Photos Section -->
             <div class="row g-3">
                 <div class="col-md-6">
-                    <label class="small fw-semibold text-muted text-uppercase mb-2 d-block"><?= lang('WorkOrder.photo_trouble') ?></label>
+                    <label class="small fw-semibold text-muted mb-2 d-block"><?= lang('WorkOrder.photo_trouble') ?></label>
                     <?php if (!empty($wo['foto_trouble'])): ?>
                         <div class="border rounded-3 p-2 bg-light text-center">
                             <a href="<?= base_url($wo['foto_trouble']) ?>" target="_blank">
@@ -98,7 +98,7 @@
                 </div>
 
                 <div class="col-md-6">
-                    <label class="small fw-semibold text-muted text-uppercase mb-2 d-block"><?= lang('WorkOrder.photo_finished') ?></label>
+                    <label class="small fw-semibold text-muted mb-2 d-block"><?= lang('WorkOrder.photo_finished') ?></label>
                     <?php if (!empty($wo['foto_bukti_selesai'])): ?>
                         <div class="border border-success rounded-3 p-2 bg-success bg-opacity-10 text-center">
                             <a href="<?= base_url($wo['foto_bukti_selesai']) ?>" target="_blank">
