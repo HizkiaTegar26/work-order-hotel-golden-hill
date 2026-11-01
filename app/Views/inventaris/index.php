@@ -3,12 +3,12 @@
 <?= $this->section('content') ?>
 <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
     <div>
-        <h4 class="fw-bold mb-1 text-dark"><i class="bi bi-archive text-warning me-2"></i><?= lang('General.inventory_title') ?></h4>
+        <h4 class="fw-bold mb-1 text-dark"><?= lang('General.inventory_title') ?></h4>
         <p class="text-muted small mb-0"><?= lang('General.inventory_sub') ?></p>
     </div>
     <div class="d-flex align-items-center gap-2">
         <button type="button" class="btn btn-gold btn-sm rounded-pill px-3" data-bs-toggle="modal" data-bs-target="#addItemModal">
-            <i class="bi bi-plus-lg me-1"></i> <?= lang('General.add_spare_part') ?>
+            <?= lang('General.add_spare_part') ?>
         </button>
     </div>
 </div>
@@ -34,7 +34,7 @@
                         <td class="text-center">
                             <?php if ($item['stok'] <= 10): ?>
                                 <span class="badge bg-danger rounded-pill px-2 py-1">
-                                    <i class="bi bi-exclamation-circle me-1"></i> <?= lang('General.stock_critical', [$item['stok']]) ?>
+                                    <?= lang('General.stock_critical', [$item['stok']]) ?>
                                 </span>
                             <?php else: ?>
                                 <span class="badge bg-success rounded-pill px-2 py-1">
@@ -107,7 +107,7 @@
     <div class="modal-dialog">
         <div class="modal-content border-0 shadow">
             <div class="modal-header bg-dark text-white">
-                <h5 class="modal-title fs-6"><i class="bi bi-plus-circle me-1 text-warning"></i> <?= lang('General.add_spare_part') ?></h5>
+                <h5 class="modal-title fs-6"><?= lang('General.add_spare_part') ?></h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
             <form action="<?= base_url('inventaris/store') ?>" method="POST">

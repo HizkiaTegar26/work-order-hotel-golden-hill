@@ -3,15 +3,15 @@
 <?= $this->section('content') ?>
 <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
     <div>
-        <h4 class="fw-bold mb-1 text-dark"><i class="bi bi-box-seam text-warning me-2"></i><?= lang('Aset.title_list') ?></h4>
+        <h4 class="fw-bold mb-1 text-dark"><?= lang('Aset.title_list') ?></h4>
         <p class="text-muted small mb-0"><?= lang('Aset.subtitle_list') ?></p>
     </div>
     <div class="d-flex align-items-center gap-2">
         <a href="<?= base_url('aset/print-qr') ?>" target="_blank" class="btn btn-outline-dark btn-sm rounded-pill px-3">
-            <i class="bi bi-printer me-1"></i> <?= lang('Aset.btn_print_all_qr') ?>
+            <?= lang('Aset.btn_print_all_qr') ?>
         </a>
         <a href="<?= base_url('aset/create') ?>" class="btn btn-gold btn-sm rounded-pill px-3">
-            <i class="bi bi-plus-lg me-1"></i> <?= lang('Aset.btn_add_asset') ?>
+            <?= lang('Aset.btn_add_asset') ?>
         </a>
     </div>
 </div>
@@ -49,7 +49,7 @@
                         <td>
                             <span class="badge bg-light text-dark border"><?= esc($ast['nama_departemen']) ?></span>
                         </td>
-                        <td><i class="bi bi-geo-alt text-muted me-1"></i><?= esc($ast['lokasi_spesifik']) ?></td>
+                        <td><?= esc($ast['lokasi_spesifik']) ?></td>
                         <td>
                             <?php
                                 $cClass = match($ast['kondisi']) {

@@ -12,10 +12,10 @@
     </div>
     <div class="d-flex align-items-center gap-2">
         <a href="<?= base_url('scan') ?>" class="btn btn-outline-dark btn-sm rounded-pill px-3">
-            <i class="bi bi-camera me-1"></i> <?= lang('Dashboard.btn_scan_qr') ?>
+            <?= lang('Dashboard.btn_scan_qr') ?>
         </a>
         <a href="<?= base_url('workorder/create') ?>" class="btn btn-gold btn-sm rounded-pill px-3">
-            <i class="bi bi-plus-lg me-1"></i> <?= lang('Dashboard.btn_create_wo') ?>
+            <?= lang('Dashboard.btn_create_wo') ?>
         </a>
     </div>
 </div>
@@ -29,9 +29,6 @@
                     <span class="text-muted small fw-semibold text-uppercase"><?= lang('Dashboard.total_wo') ?></span>
                     <h3 class="fw-bold text-dark mt-1 mb-0"><?= number_format($kpi['total_wo']) ?></h3>
                 </div>
-                <div class="p-2 bg-primary bg-opacity-10 text-primary rounded-3">
-                    <i class="bi bi-collection-fill fs-5"></i>
-                </div>
             </div>
             <small class="text-muted mt-2 d-block"><?= lang('Dashboard.all_depts') ?></small>
         </div>
@@ -43,9 +40,6 @@
                 <div>
                     <span class="text-muted small fw-semibold text-uppercase"><?= lang('Dashboard.in_progress') ?></span>
                     <h3 class="fw-bold text-warning mt-1 mb-0"><?= number_format($kpi['total_proses']) ?></h3>
-                </div>
-                <div class="p-2 bg-warning bg-opacity-10 text-warning rounded-3">
-                    <i class="bi bi-gear-wide-connected fs-5"></i>
                 </div>
             </div>
             <small class="text-muted mt-2 d-block"><?= lang('Dashboard.waiting_review', [number_format($kpi['total_baru'])]) ?></small>
@@ -59,9 +53,6 @@
                     <span class="text-muted small fw-semibold text-uppercase"><?= lang('Dashboard.completed') ?></span>
                     <h3 class="fw-bold text-success mt-1 mb-0"><?= number_format($kpi['total_selesai']) ?></h3>
                 </div>
-                <div class="p-2 bg-success bg-opacity-10 text-success rounded-3">
-                    <i class="bi bi-check2-circle fs-5"></i>
-                </div>
             </div>
             <small class="text-muted mt-2 d-block"><?= lang('Dashboard.compliance', [$kpi['sla_compliance_rate']]) ?></small>
         </div>
@@ -73,9 +64,6 @@
                 <div>
                     <span class="text-muted small fw-semibold text-uppercase"><?= lang('Dashboard.escalated_overdue') ?></span>
                     <h3 class="fw-bold text-danger mt-1 mb-0"><?= number_format($kpi['total_escalated']) ?></h3>
-                </div>
-                <div class="p-2 bg-danger bg-opacity-10 text-danger rounded-3">
-                    <i class="bi bi-exclamation-triangle-fill fs-5"></i>
                 </div>
             </div>
             <small class="text-danger mt-2 d-block fw-semibold">
@@ -90,12 +78,9 @@
     <div class="col-md-3">
         <div class="card card-custom p-3 bg-white">
             <div class="d-flex align-items-center gap-3">
-                <div class="rounded-circle bg-info bg-opacity-10 text-info p-3 d-flex align-items-center justify-content-center">
-                    <i class="bi bi-stopwatch fs-4"></i>
-                </div>
                 <div>
                     <div class="text-muted small"><?= lang('Dashboard.avg_response') ?></div>
-                    <div class="fs-5 fw-bold text-dark">
+                    <div class="fs-4 fw-bold text-dark">
                         <?php 
                             $respMin = $kpi['avg_response_min'];
                             echo $respMin >= 60 ? lang('Dashboard.hours', [round($respMin / 60, 1)]) : lang('Dashboard.minutes', [$respMin]);
@@ -110,12 +95,9 @@
     <div class="col-md-3">
         <div class="card card-custom p-3 bg-white">
             <div class="d-flex align-items-center gap-3">
-                <div class="rounded-circle bg-primary bg-opacity-10 text-primary p-3 d-flex align-items-center justify-content-center">
-                    <i class="bi bi-wrench-adjustable-circle fs-4"></i>
-                </div>
                 <div>
                     <div class="text-muted small"><?= lang('Dashboard.avg_resolution') ?></div>
-                    <div class="fs-5 fw-bold text-dark">
+                    <div class="fs-4 fw-bold text-dark">
                         <?php 
                             $resMin = $kpi['avg_resolution_min'];
                             echo $resMin >= 60 ? lang('Dashboard.hours', [round($resMin / 60, 1)]) : lang('Dashboard.minutes', [$resMin]);
@@ -130,12 +112,9 @@
     <div class="col-md-3">
         <div class="card card-custom p-3 bg-white">
             <div class="d-flex align-items-center gap-3">
-                <div class="rounded-circle bg-success bg-opacity-10 text-success p-3 d-flex align-items-center justify-content-center">
-                    <i class="bi bi-shield-check fs-4"></i>
-                </div>
                 <div>
                     <div class="text-muted small"><?= lang('Dashboard.sla_compliance') ?></div>
-                    <div class="fs-5 fw-bold text-success"><?= $kpi['sla_compliance_rate'] ?>%</div>
+                    <div class="fs-4 fw-bold text-success"><?= $kpi['sla_compliance_rate'] ?>%</div>
                     <small class="text-muted" style="font-size: 0.72rem;"><?= lang('Dashboard.sla_compliance_sub') ?></small>
                 </div>
             </div>
@@ -145,12 +124,9 @@
     <div class="col-md-3">
         <div class="card card-custom p-3 bg-white">
             <div class="d-flex align-items-center gap-3">
-                <div class="rounded-circle bg-warning bg-opacity-10 text-warning p-3 d-flex align-items-center justify-content-center">
-                    <i class="bi bi-cash-stack fs-4"></i>
-                </div>
                 <div>
                     <div class="text-muted small"><?= lang('Dashboard.sparepart_cost') ?></div>
-                    <div class="fs-5 fw-bold text-dark">Rp <?= number_format($kpi['total_sparepart_cost'], 0, ',', '.') ?></div>
+                    <div class="fs-4 fw-bold text-dark">Rp <?= number_format($kpi['total_sparepart_cost'], 0, ',', '.') ?></div>
                     <small class="text-muted" style="font-size: 0.72rem;"><?= lang('Dashboard.sparepart_cost_sub') ?></small>
                 </div>
             </div>
@@ -164,7 +140,7 @@
     <div class="col-lg-4">
         <div class="card card-custom p-3 h-100">
             <div class="d-flex justify-content-between align-items-center mb-3">
-                <h6 class="fw-bold mb-0 text-dark"><i class="bi bi-pie-chart text-primary me-2"></i><?= lang('Dashboard.chart_sla_title') ?></h6>
+                <h6 class="fw-bold mb-0 text-dark"><?= lang('Dashboard.chart_sla_title') ?></h6>
                 <span class="badge bg-light text-dark border"><?= lang('Dashboard.chart_sla_badge') ?></span>
             </div>
             <div style="height: 250px; position: relative;">
@@ -195,7 +171,7 @@
     <div class="col-lg-8">
         <div class="card card-custom p-3 h-100">
             <div class="d-flex justify-content-between align-items-center mb-3">
-                <h6 class="fw-bold mb-0 text-dark"><i class="bi bi-bar-chart-fill text-warning me-2"></i><?= lang('Dashboard.chart_dept_title') ?></h6>
+                <h6 class="fw-bold mb-0 text-dark"><?= lang('Dashboard.chart_dept_title') ?></h6>
                 <span class="badge bg-light text-dark border"><?= lang('Dashboard.chart_dept_badge') ?></span>
             </div>
             <div style="height: 280px; position: relative;">
@@ -210,7 +186,7 @@
     <div class="col-lg-6">
         <div class="card card-custom p-3 h-100">
             <div class="d-flex justify-content-between align-items-center mb-3">
-                <h6 class="fw-bold mb-0 text-dark"><i class="bi bi-tools text-danger me-2"></i><?= lang('Dashboard.chart_assets_title') ?></h6>
+                <h6 class="fw-bold mb-0 text-dark"><?= lang('Dashboard.chart_assets_title') ?></h6>
                 <span class="badge bg-light text-dark border"><?= lang('Dashboard.chart_assets_badge') ?></span>
             </div>
             <div style="height: 250px; position: relative;">
@@ -223,7 +199,7 @@
     <div class="col-lg-6">
         <div class="card card-custom p-3 h-100">
             <div class="d-flex justify-content-between align-items-center mb-3">
-                <h6 class="fw-bold mb-0 text-dark"><i class="bi bi-list-stars text-primary me-2"></i><?= lang('Dashboard.breakdown_title') ?></h6>
+                <h6 class="fw-bold mb-0 text-dark"><?= lang('Dashboard.breakdown_title') ?></h6>
                 <a href="<?= base_url('aset') ?>" class="btn btn-sm btn-outline-primary" style="font-size: 0.75rem;"><?= lang('Dashboard.all_assets') ?></a>
             </div>
             <div class="table-responsive">
@@ -262,11 +238,11 @@
 <div class="card card-custom p-4">
     <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center mb-3 gap-2">
         <div>
-            <h5 class="fw-bold mb-0 text-dark"><i class="bi bi-clock-history text-primary me-2"></i><?= lang('Dashboard.recent_wos_title') ?></h5>
+            <h5 class="fw-bold mb-0 text-dark"><?= lang('Dashboard.recent_wos_title') ?></h5>
             <small class="text-muted"><?= lang('Dashboard.recent_wos_sub') ?></small>
         </div>
         <a href="<?= base_url('workorder') ?>" class="btn btn-sm btn-outline-dark rounded-pill px-3">
-            <?= lang('Dashboard.view_all_wo') ?> <i class="bi bi-arrow-right ms-1"></i>
+            <?= lang('Dashboard.view_all_wo') ?>
         </a>
     </div>
 
@@ -301,7 +277,7 @@
                                 <div class="text-muted small text-truncate" style="font-size: 0.75rem;"><?= esc($wo['deskripsi']) ?></div>
                                 <?php if (!empty($wo['nama_aset'])): ?>
                                     <span class="badge bg-light text-secondary border mt-1" style="font-size: 0.68rem;">
-                                        <i class="bi bi-tag me-1"></i> <?= esc($wo['nama_aset']) ?>
+                                        <?= esc($wo['nama_aset']) ?>
                                     </span>
                                 <?php endif; ?>
                             </td>
@@ -338,7 +314,7 @@
                             <td>
                                 <?php $sla = $wo['sla_info']; ?>
                                 <span class="badge <?= $sla['badge_class'] ?>">
-                                    <i class="bi bi-stopwatch me-1"></i> <?= $sla['badge_text'] ?>
+                                    <?= $sla['badge_text'] ?>
                                 </span>
                                 <?php if ($wo['deadline']): ?>
                                     <div class="text-muted" style="font-size: 0.7rem;"><?= lang('Dashboard.target_label', [date('d/m H:i', strtotime($wo['deadline']))]) ?></div>
@@ -353,7 +329,7 @@
                             </td>
                             <td class="text-center">
                                 <a href="<?= base_url('workorder/detail/' . $wo['id_wo']) ?>" class="btn btn-sm btn-outline-primary py-1 px-2" title="<?= lang('Dashboard.detail_btn') ?>">
-                                    <i class="bi bi-eye"></i> <?= lang('Dashboard.detail_btn') ?>
+                                    <?= lang('Dashboard.detail_btn') ?>
                                 </a>
                             </td>
                         </tr>

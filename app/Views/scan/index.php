@@ -5,11 +5,11 @@
     <div class="col-lg-8">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <div>
-                <h4 class="fw-bold mb-1 text-dark"><i class="bi bi-qr-code-scan text-warning me-2"></i><?= lang('Aset.scan_title') ?></h4>
+                <h4 class="fw-bold mb-1 text-dark"><?= lang('Aset.scan_title') ?></h4>
                 <p class="text-muted small mb-0"><?= lang('Aset.scan_subtitle') ?></p>
             </div>
             <a href="<?= base_url('dashboard') ?>" class="btn btn-outline-secondary btn-sm rounded-pill px-3">
-                <i class="bi bi-arrow-left me-1"></i> Dashboard
+                Dashboard
             </a>
         </div>
 
@@ -17,13 +17,8 @@
         <div class="card card-custom p-4 mb-4">
             <!-- Camera Status & Error Alert Banner (Hidden by default) -->
             <div id="cameraAlertBanner" class="alert alert-warning border-warning border-opacity-25 d-none mb-3 shadow-sm" role="alert">
-                <div class="d-flex align-items-start gap-2">
-                    <i class="bi bi-exclamation-triangle-fill text-warning fs-5 mt-1"></i>
-                    <div>
-                        <strong class="d-block text-dark"><?= lang('Aset.camera_error_denied') ?></strong>
-                        <span class="small text-muted" id="cameraErrorMessage"><?= lang('Aset.camera_error_dark') ?></span>
-                    </div>
-                </div>
+                <strong class="d-block text-dark"><?= lang('Aset.camera_error_denied') ?></strong>
+                <span class="small text-muted" id="cameraErrorMessage"><?= lang('Aset.camera_error_dark') ?></span>
             </div>
 
             <!-- Camera Reader Viewport -->
@@ -34,16 +29,16 @@
             <!-- Camera Control Buttons (Touch Target >= 48px) -->
             <div class="d-flex flex-wrap justify-content-center gap-2 mt-3">
                 <button type="button" class="btn btn-outline-primary btn-mobile-touch" id="startCameraBtn" style="min-height: 48px;">
-                    <i class="bi bi-camera-video me-1"></i> <?= lang('Aset.open_camera') ?>
+                    <?= lang('Aset.open_camera') ?>
                 </button>
                 <button type="button" class="btn btn-outline-danger btn-mobile-touch" id="stopCameraBtn" style="display: none; min-height: 48px;">
-                    <i class="bi bi-camera-video-off me-1"></i> <?= lang('Aset.close_camera') ?>
+                    <?= lang('Aset.close_camera') ?>
                 </button>
                 <button type="button" class="btn btn-outline-warning btn-mobile-touch text-dark" id="torchBtn" style="display: none; min-height: 48px;" onclick="toggleTorch()">
-                    <i class="bi bi-lightbulb me-1"></i> <?= lang('Aset.torch_toggle') ?>
+                    <?= lang('Aset.torch_toggle') ?>
                 </button>
                 <button type="button" class="btn btn-outline-secondary btn-mobile-touch" id="switchCameraBtn" style="display: none; min-height: 48px;" onclick="switchCamera()">
-                    <i class="bi bi-arrow-repeat me-1"></i> <?= lang('Aset.switch_camera') ?>
+                    <?= lang('Aset.switch_camera') ?>
                 </button>
             </div>
 
@@ -51,7 +46,7 @@
             <div class="mt-4 pt-3 border-top">
                 <div class="d-flex align-items-center mb-3">
                     <span class="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25 px-2 py-1 me-2">
-                        <i class="bi bi-shield-check me-1"></i> Failover / Fallback
+                        Failover / Fallback
                     </span>
                     <span class="small fw-bold text-dark"><?= lang('Aset.fallback_manual_title') ?></span>
                 </div>
@@ -59,13 +54,12 @@
                 <!-- 1. Input Kode Aset Manual -->
                 <div class="card bg-light border-0 p-3 mb-3 rounded-3 shadow-none">
                     <label class="form-label small fw-bold text-dark mb-1">
-                        <i class="bi bi-keyboard text-warning me-1"></i> <?= lang('Aset.fallback_manual_input') ?>
+                        <?= lang('Aset.fallback_manual_input') ?>
                     </label>
                     <div class="input-group">
-                        <span class="input-group-text bg-white border-end-0"><i class="bi bi-upc-scan text-muted"></i></span>
-                        <input type="text" id="manualAssetCodeInput" class="form-control border-start-0" placeholder="Contoh: AST-ENG-001" style="text-transform: uppercase;" onkeyup="if(event.key==='Enter') submitManualCode()">
+                        <input type="text" id="manualAssetCodeInput" class="form-control" placeholder="Contoh: AST-ENG-001" style="text-transform: uppercase;" onkeyup="if(event.key==='Enter') submitManualCode()">
                         <button class="btn btn-gold fw-bold px-3" type="button" onclick="submitManualCode()" style="min-height: 48px;">
-                            <i class="bi bi-search me-1"></i> <?= lang('Aset.btn_process_code') ?>
+                            <?= lang('Aset.btn_process_code') ?>
                         </button>
                     </div>
                 </div>
@@ -73,7 +67,7 @@
                 <!-- 2. Pilih Aset dari Searchable Directory Dropdown -->
                 <div class="card bg-light border-0 p-3 mb-3 rounded-3 shadow-none">
                     <label class="form-label small fw-bold text-dark mb-1">
-                        <i class="bi bi-list-check text-primary me-1"></i> <?= lang('Aset.fallback_dropdown_select') ?>
+                        <?= lang('Aset.fallback_dropdown_select') ?>
                     </label>
                     <select id="assetDropdownSelect" class="form-select form-select-lg" style="font-size: 0.95rem; min-height: 48px;" onchange="if(this.value) processScanCode(this.value)">
                         <option value=""><?= lang('Aset.fallback_select_placeholder') ?></option>
@@ -88,7 +82,7 @@
                 <!-- 3. Manual / Quick Asset Selector for Desktop Testing -->
                 <div>
                     <label class="small fw-bold text-muted mb-2 d-block">
-                        <i class="bi bi-lightning-charge-fill text-warning me-1"></i> <?= lang('Aset.quick_simulation') ?>
+                        <?= lang('Aset.quick_simulation') ?>
                     </label>
                     <div class="d-flex flex-wrap gap-2">
                         <?php foreach ($assets as $a): ?>
@@ -109,7 +103,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content border-0 shadow-lg">
             <div class="modal-header bg-dark text-white">
-                <h5 class="modal-title fs-6"><i class="bi bi-check-circle-fill text-warning me-2"></i> <?= lang('Aset.asset_detected_title') ?></h5>
+                <h5 class="modal-title fs-6"><?= lang('Aset.asset_detected_title') ?></h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body p-4">
@@ -132,10 +126,10 @@
 
                 <div class="d-grid gap-2">
                     <a href="#" id="scannedReportBtn" class="btn btn-warning text-dark fw-bold py-2 shadow-sm">
-                        <i class="bi bi-tools me-1"></i> <?= lang('Aset.btn_report_locked') ?>
+                        <?= lang('Aset.btn_report_locked') ?>
                     </a>
                     <a href="#" id="scannedDetailBtn" class="btn btn-outline-dark py-2">
-                        <i class="bi bi-clock-history me-1"></i> <?= lang('Aset.btn_view_history') ?>
+                        <?= lang('Aset.btn_view_history') ?>
                     </a>
                 </div>
             </div>
@@ -280,7 +274,7 @@
                     const btn = document.getElementById('torchBtn');
                     if (btn) {
                         btn.className = isTorchActive ? 'btn btn-warning btn-mobile-touch text-dark fw-bold' : 'btn btn-outline-warning btn-mobile-touch text-dark';
-                        btn.innerHTML = isTorchActive ? '<i class="bi bi-lightbulb-fill me-1"></i> Senter ON' : '<i class="bi bi-lightbulb me-1"></i> <?= lang('Aset.torch_toggle') ?>';
+                        btn.innerText = isTorchActive ? 'Senter ON' : '<?= lang('Aset.torch_toggle') ?>';
                     }
                 }).catch(e => {
                     console.warn("Torch constraint not supported:", e);

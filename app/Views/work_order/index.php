@@ -4,15 +4,15 @@
 <!-- Breadcrumb & Header -->
 <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
     <div>
-        <h4 class="fw-bold mb-1 text-dark"><i class="bi bi-tools text-warning me-2"></i><?= lang('WorkOrder.title_list') ?></h4>
+        <h4 class="fw-bold mb-1 text-dark"><?= lang('WorkOrder.title_list') ?></h4>
         <p class="text-muted small mb-0"><?= lang('WorkOrder.subtitle_list') ?></p>
     </div>
     <div class="d-flex align-items-center gap-2">
         <a href="<?= base_url('workorder/export-excel') ?><?= !empty($currentFilters['dept']) ? '?dept=' . $currentFilters['dept'] : '' ?>" class="btn btn-outline-success btn-sm rounded-pill px-3">
-            <i class="bi bi-file-earmark-excel me-1"></i> <?= lang('WorkOrder.btn_export_excel') ?>
+            <?= lang('WorkOrder.btn_export_excel') ?>
         </a>
         <a href="<?= base_url('workorder/create') ?>" class="btn btn-gold btn-sm rounded-pill px-3">
-            <i class="bi bi-plus-lg me-1"></i> <?= lang('WorkOrder.btn_create') ?>
+            <?= lang('WorkOrder.btn_create') ?>
         </a>
     </div>
 </div>
@@ -66,7 +66,7 @@
 
         <div class="col-md-2 col-sm-12 d-flex gap-2">
             <button type="submit" class="btn btn-sm btn-dark w-100">
-                <i class="bi bi-funnel me-1"></i> <?= lang('WorkOrder.btn_filter') ?>
+                <?= lang('WorkOrder.btn_filter') ?>
             </button>
             <a href="<?= base_url('workorder') ?>" class="btn btn-sm btn-light border" title="<?= lang('WorkOrder.btn_reset') ?>">
                 <i class="bi bi-arrow-counterclockwise"></i>
@@ -107,7 +107,7 @@
                             <div class="text-muted text-truncate" style="font-size: 0.75rem;"><?= esc($wo['deskripsi']) ?></div>
                             <?php if (!empty($wo['nama_aset'])): ?>
                                 <span class="badge bg-light text-secondary border mt-1" style="font-size: 0.68rem;">
-                                    <i class="bi bi-tag me-1"></i> <?= esc($wo['nama_aset']) ?>
+                                    <?= esc($wo['nama_aset']) ?>
                                 </span>
                             <?php endif; ?>
                         </td>
@@ -144,7 +144,7 @@
                         <td>
                             <?php $sla = $wo['sla_info']; ?>
                             <span class="badge <?= $sla['badge_class'] ?>">
-                                <i class="bi bi-stopwatch me-1"></i> <?= $sla['badge_text'] ?>
+                                <?= $sla['badge_text'] ?>
                             </span>
                             <?php if ($wo['deadline']): ?>
                                 <div class="text-muted" style="font-size: 0.7rem;">Deadline: <?= date('d/m H:i', strtotime($wo['deadline'])) ?></div>

@@ -3,12 +3,12 @@
 <?= $this->section('content') ?>
 <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
     <div>
-        <h4 class="fw-bold mb-1 text-dark"><i class="bi bi-people text-warning me-2"></i><?= lang('General.user_mgmt_title') ?></h4>
+        <h4 class="fw-bold mb-1 text-dark"><?= lang('General.user_mgmt_title') ?></h4>
         <p class="text-muted small mb-0"><?= lang('General.user_mgmt_sub') ?></p>
     </div>
     <div class="d-flex align-items-center gap-2">
         <button type="button" class="btn btn-gold btn-sm rounded-pill px-3" data-bs-toggle="modal" data-bs-target="#addUserModal">
-            <i class="bi bi-person-plus-fill me-1"></i> <?= lang('General.add_user') ?>
+            <?= lang('General.add_user') ?>
         </button>
     </div>
 </div>
@@ -39,7 +39,7 @@
                         <td><code><?= esc($u['username']) ?></code></td>
                         <td>
                             <div><?= esc($u['email']) ?></div>
-                            <small class="text-muted"><i class="bi bi-whatsapp text-success me-1"></i><?= esc($u['no_whatsapp']) ?></small>
+                            <small class="text-muted"><?= esc($u['no_whatsapp']) ?></small>
                         </td>
                         <td>
                             <span class="badge bg-light text-dark border"><?= esc($u['nama_departemen']) ?> (<?= esc($u['kode_dept']) ?>)</span>
@@ -147,7 +147,7 @@
     <div class="modal-dialog">
         <div class="modal-content border-0 shadow">
             <div class="modal-header bg-dark text-white">
-                <h5 class="modal-title fs-6"><i class="bi bi-person-plus-fill me-1 text-warning"></i> <?= lang('General.add_user') ?></h5>
+                <h5 class="modal-title fs-6"><?= lang('General.add_user') ?></h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
             <form action="<?= base_url('users/store') ?>" method="POST">

@@ -5,11 +5,11 @@
     <div class="col-lg-8">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <div>
-                <h4 class="fw-bold mb-1 text-dark"><i class="bi bi-plus-circle text-warning me-2"></i><?= lang('Aset.title_create') ?></h4>
+                <h4 class="fw-bold mb-1 text-dark"><?= lang('Aset.title_create') ?></h4>
                 <p class="text-muted small mb-0"><?= lang('Aset.subtitle_create') ?></p>
             </div>
             <a href="<?= base_url('aset') ?>" class="btn btn-outline-secondary btn-sm rounded-pill px-3">
-                <i class="bi bi-arrow-left me-1"></i> <?= current_locale() === 'en' ? 'Back to Assets List' : 'Kembali ke Daftar Aset' ?>
+                <?= current_locale() === 'en' ? 'Back to Assets List' : 'Kembali ke Daftar Aset' ?>
             </a>
         </div>
 
@@ -58,7 +58,7 @@
                     <div class="col-12 text-end pt-3 border-top">
                         <a href="<?= base_url('aset') ?>" class="btn btn-secondary me-2"><?= current_locale() === 'en' ? 'Cancel' : 'Batal' ?></a>
                         <button type="submit" class="btn btn-gold px-4">
-                            <i class="bi bi-qr-code me-1"></i> <?= lang('Aset.btn_save_asset') ?>
+                            <?= lang('Aset.btn_save_asset') ?>
                         </button>
                     </div>
                 </div>

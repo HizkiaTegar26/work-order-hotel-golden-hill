@@ -5,22 +5,19 @@
     <div class="col-lg-9">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <div>
-                <h4 class="fw-bold mb-1 text-dark"><i class="bi bi-plus-circle text-warning me-2"></i><?= lang('WorkOrder.title_create') ?></h4>
+                <h4 class="fw-bold mb-1 text-dark"><?= lang('WorkOrder.title_create') ?></h4>
                 <p class="text-muted small mb-0"><?= lang('WorkOrder.subtitle_create') ?></p>
             </div>
             <a href="<?= base_url('workorder') ?>" class="btn btn-outline-secondary btn-sm rounded-pill px-3">
-                <i class="bi bi-arrow-left me-1"></i> <?= current_locale() === 'en' ? 'Back to List' : 'Kembali ke Daftar' ?>
+                <?= current_locale() === 'en' ? 'Back to List' : 'Kembali ke Daftar' ?>
             </a>
         </div>
 
         <?php if (!empty($selectedAsset)): ?>
             <div class="alert alert-warning border-warning d-flex align-items-center justify-content-between mb-4 shadow-sm" role="alert">
-                <div class="d-flex align-items-center gap-3">
-                    <div class="fs-2 text-warning"><i class="bi bi-qr-code-scan"></i></div>
-                    <div>
-                        <div class="fw-bold text-dark"><?= lang('WorkOrder.asset_locked_notice', [esc($selectedAsset['nama_aset']), esc($selectedAsset['kode_aset'])]) ?></div>
-                        <small class="text-muted"><?= current_locale() === 'en' ? 'Location: ' : 'Lokasi: ' ?><?= esc($selectedAsset['lokasi_spesifik']) ?> • <?= lang('Aset.col_condition') ?>: <span class="badge bg-secondary"><?= translate_condition($selectedAsset['kondisi']) ?></span></small>
-                    </div>
+                <div>
+                    <div class="fw-bold text-dark"><?= lang('WorkOrder.asset_locked_notice', [esc($selectedAsset['nama_aset']), esc($selectedAsset['kode_aset'])]) ?></div>
+                    <small class="text-muted"><?= current_locale() === 'en' ? 'Location: ' : 'Lokasi: ' ?><?= esc($selectedAsset['lokasi_spesifik']) ?> • <?= lang('Aset.col_condition') ?>: <span class="badge bg-secondary"><?= translate_condition($selectedAsset['kondisi']) ?></span></small>
                 </div>
                 <span class="badge bg-warning text-dark px-3 py-2"><?= lang('WorkOrder.auto_locked_badge') ?></span>
             </div>
@@ -109,7 +106,7 @@
                     <div class="col-12 text-end pt-3 border-top">
                         <a href="<?= base_url('workorder') ?>" class="btn btn-secondary me-2"><?= current_locale() === 'en' ? 'Cancel' : 'Batal' ?></a>
                         <button type="submit" class="btn btn-gold px-4">
-                            <i class="bi bi-send-check me-1"></i> <?= lang('WorkOrder.btn_submit_wo') ?>
+                            <?= lang('WorkOrder.btn_submit_wo') ?>
                         </button>
                     </div>
                 </div>

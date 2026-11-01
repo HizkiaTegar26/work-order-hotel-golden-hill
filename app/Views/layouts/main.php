@@ -253,7 +253,7 @@
     <nav id="sidebar">
         <div class="brand-box">
             <div class="d-flex align-items-center justify-content-between mb-1">
-                <span class="brand-badge"><i class="bi bi-star-fill text-warning me-1"></i> Golden Tulip</span>
+                <span class="brand-badge">Golden Tulip</span>
                 <span class="badge bg-dark text-white-50 border border-secondary" style="font-size: 0.65rem;">V2.0</span>
             </div>
             <h5 class="fw-bold mb-0 text-white"><?= lang('Navigation.hotel_name') ?></h5>
@@ -276,7 +276,7 @@
             </li>
             <li>
                 <a href="<?= base_url('scan') ?>" class="nav-link <?= url_is('scan*') ? 'active' : '' ?>">
-                    <i class="bi bi-qr-code-scan text-warning"></i>
+                    <i class="bi bi-qr-code-scan"></i>
                     <span><?= lang('Navigation.scan_qr') ?></span>
                 </a>
             </li>
@@ -348,7 +348,7 @@
 
             <!-- Quick Role Switcher for Test/Demo -->
             <button type="button" class="btn btn-sm btn-outline-light w-100 py-1" style="font-size: 0.72rem;" data-bs-toggle="modal" data-bs-target="#switchRoleModal">
-                <i class="bi bi-arrow-left-right me-1"></i> <?= lang('Navigation.switch_role_demo') ?>
+                <?= lang('Navigation.switch_role_demo') ?>
             </button>
         </div>
     </nav>
@@ -358,7 +358,7 @@
         <!-- Top Navbar -->
         <header class="top-navbar">
             <div class="d-flex align-items-center gap-3">
-                <button class="btn btn-light d-lg-none" id="sidebarToggle">
+                <button class="btn btn-light d-lg-none" id="sidebarToggle" aria-label="Menu" title="Menu">
                     <i class="bi bi-list fs-5"></i>
                 </button>
                 <div class="d-none d-sm-block">
@@ -371,12 +371,8 @@
                 <!-- Language Switcher Dropdown (Specification 3.1) -->
                 <?php $currentLocale = current_locale(); ?>
                 <div class="dropdown">
-                    <button class="btn btn-sm btn-light border dropdown-toggle d-flex align-items-center gap-2 rounded-pill px-3 py-1 shadow-sm" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <?php if ($currentLocale === 'en'): ?>
-                            <span style="font-size: 1.1rem; line-height: 1;">🇬🇧</span> <strong class="small">EN</strong>
-                        <?php else: ?>
-                            <span style="font-size: 1.1rem; line-height: 1;">🇮🇩</span> <strong class="small">ID</strong>
-                        <?php endif; ?>
+                    <button class="btn btn-sm btn-light border dropdown-toggle rounded-pill px-3 py-1 fw-semibold small" type="button" data-bs-toggle="dropdown" aria-expanded="false" title="<?= lang('Navigation.language') ?>">
+                        <?= $currentLocale === 'en' ? 'EN' : 'ID' ?>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0" style="font-size: 0.85rem;">
                         <li class="dropdown-header small text-muted text-uppercase fw-bold"><?= lang('Navigation.language') ?></li>
@@ -403,21 +399,21 @@
 
                 <!-- Action Buttons -->
                 <a href="<?= base_url('scan') ?>" class="btn btn-sm btn-outline-dark rounded-pill px-3">
-                    <i class="bi bi-qr-code-scan me-1 text-warning"></i> <?= lang('Navigation.quick_scan') ?>
+                    <?= lang('Navigation.quick_scan') ?>
                 </a>
                 <a href="<?= base_url('workorder/create') ?>" class="btn btn-sm btn-gold rounded-pill px-3">
-                    <i class="bi bi-plus-circle me-1"></i> <?= lang('Navigation.new_wo') ?>
+                    <?= lang('Navigation.new_wo') ?>
                 </a>
-                <button type="button" class="btn btn-sm btn-outline-warning text-dark rounded-pill px-3" onclick="openOnboardingModal(true)" title="<?= current_locale() === 'en' ? 'Interactive Operations Guide' : 'Panduan Operasional Interaktif' ?>">
-                    <i class="bi bi-question-circle-fill me-1 text-warning"></i> <span class="d-none d-lg-inline"><?= current_locale() === 'en' ? 'Guide' : 'Panduan' ?></span>
+                <button type="button" class="btn btn-sm btn-link text-secondary text-decoration-none px-2" onclick="openOnboardingModal(true)" title="<?= current_locale() === 'en' ? 'Interactive Operations Guide' : 'Panduan Operasional Interaktif' ?>">
+                    <?= current_locale() === 'en' ? 'Guide' : 'Panduan' ?>
                 </button>
 
                 <!-- SLA Overdue Check Notification -->
                 <?php 
                     $overdueCount = (new \App\Models\WorkOrderModel())->where('id_status', 8)->countAllResults();
                 ?>
-                <a href="<?= base_url('workorder?status=8') ?>" class="btn btn-sm btn-light border position-relative rounded-pill px-2" title="Work Order Overdue / Escalated">
-                    <i class="bi bi-bell-fill text-danger"></i>
+                <a href="<?= base_url('workorder?status=8') ?>" class="btn btn-sm btn-light border position-relative rounded-pill px-2" title="Work Order Overdue / Escalated" aria-label="Work Order Overdue / Escalated">
+                    <i class="bi bi-bell text-secondary"></i>
                     <?php if ($overdueCount > 0): ?>
                     <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.65rem;">
                         <?= $overdueCount ?>
@@ -427,8 +423,8 @@
 
                 <!-- User Dropdown -->
                 <div class="dropdown ms-1">
-                    <button class="btn btn-light border dropdown-toggle d-flex align-items-center gap-2 rounded-pill px-3 py-1" type="button" data-bs-toggle="dropdown">
-                        <i class="bi bi-person-circle fs-6"></i>
+                    <button class="btn btn-light border dropdown-toggle d-flex align-items-center gap-2 rounded-pill ps-1 pe-3 py-1" type="button" data-bs-toggle="dropdown">
+                        <span class="rounded-circle bg-dark text-white d-inline-flex align-items-center justify-content-center fw-semibold" style="width: 26px; height: 26px; font-size: 0.75rem;"><?= strtoupper(substr(session()->get('username') ?? 'U', 0, 1)) ?></span>
                         <span class="d-none d-md-inline" style="font-size: 0.85rem;"><?= esc(session()->get('username')) ?></span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0">
@@ -439,18 +435,18 @@
                         <li><hr class="dropdown-divider"></li>
                         <li>
                             <a class="dropdown-item" href="<?= base_url('workorder?user=me') ?>">
-                                <i class="bi bi-list-check me-2"></i> <?= lang('Navigation.my_wo') ?>
+                                <?= lang('Navigation.my_wo') ?>
                             </a>
                         </li>
                         <li>
                             <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#switchRoleModal">
-                                <i class="bi bi-arrow-left-right me-2 text-primary"></i> <?= lang('Navigation.switch_role') ?>
+                                <?= lang('Navigation.switch_role') ?>
                             </button>
                         </li>
                         <li><hr class="dropdown-divider"></li>
                         <li>
                             <a class="dropdown-item text-danger" href="<?= base_url('logout') ?>">
-                                <i class="bi bi-box-arrow-right me-2"></i> <?= lang('Navigation.logout') ?>
+                                <?= lang('Navigation.logout') ?>
                             </a>
                         </li>
                     </ul>
@@ -463,21 +459,21 @@
             <!-- Alert Messages -->
             <?php if (session()->getFlashdata('success')): ?>
                 <div class="alert alert-success alert-dismissible fade show border-0 shadow-sm" role="alert">
-                    <i class="bi bi-check-circle-fill me-2"></i> <?= session()->getFlashdata('success') ?>
+                    <?= session()->getFlashdata('success') ?>
                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 </div>
             <?php endif; ?>
 
             <?php if (session()->getFlashdata('error')): ?>
                 <div class="alert alert-danger alert-dismissible fade show border-0 shadow-sm" role="alert">
-                    <i class="bi bi-exclamation-triangle-fill me-2"></i> <?= session()->getFlashdata('error') ?>
+                    <?= session()->getFlashdata('error') ?>
                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 </div>
             <?php endif; ?>
 
             <?php if (session()->getFlashdata('warning')): ?>
                 <div class="alert alert-warning alert-dismissible fade show border-0 shadow-sm" role="alert">
-                    <i class="bi bi-exclamation-circle-fill me-2"></i> <?= session()->getFlashdata('warning') ?>
+                    <?= session()->getFlashdata('warning') ?>
                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 </div>
             <?php endif; ?>
@@ -501,7 +497,7 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content border-0 shadow">
                 <div class="modal-header bg-dark text-white">
-                    <h5 class="modal-title fs-6"><i class="bi bi-arrow-left-right me-2 text-warning"></i> <?= lang('Navigation.switch_role_demo') ?></h5>
+                    <h5 class="modal-title fs-6"><?= lang('Navigation.switch_role_demo') ?></h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
                 <form action="<?= base_url('auth/switch-role') ?>" method="POST">

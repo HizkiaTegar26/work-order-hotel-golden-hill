@@ -3,12 +3,12 @@
 <?= $this->section('content') ?>
 <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
     <div>
-        <h4 class="fw-bold mb-1 text-dark"><i class="bi bi-shield-check text-warning me-2"></i><?= lang('General.audit_title') ?></h4>
+        <h4 class="fw-bold mb-1 text-dark"><?= lang('General.audit_title') ?></h4>
         <p class="text-muted small mb-0"><?= lang('General.audit_sub') ?></p>
     </div>
     <div class="d-flex align-items-center gap-2">
         <a href="<?= base_url('audit') ?>" class="btn btn-outline-dark btn-sm rounded-pill px-3">
-            <i class="bi bi-arrow-clockwise me-1"></i> <?= lang('General.refresh_log') ?>
+            <?= lang('General.refresh_log') ?>
         </a>
     </div>
 </div>

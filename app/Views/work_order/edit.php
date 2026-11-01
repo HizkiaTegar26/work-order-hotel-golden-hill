@@ -5,11 +5,11 @@
     <div class="col-lg-9">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <div>
-                <h4 class="fw-bold mb-1 text-dark"><i class="bi bi-pencil-square text-warning me-2"></i><?= lang('WorkOrder.title_edit', [esc($wo['kode_wo'])]) ?></h4>
+                <h4 class="fw-bold mb-1 text-dark"><?= lang('WorkOrder.title_edit', [esc($wo['kode_wo'])]) ?></h4>
                 <p class="text-muted small mb-0"><?= current_locale() === 'en' ? 'Can only be modified while the Work Order status is "New".' : 'Hanya dapat diubah selama status Work Order masih "Baru".' ?></p>
             </div>
             <a href="<?= base_url('workorder/detail/' . $wo['id_wo']) ?>" class="btn btn-outline-secondary btn-sm rounded-pill px-3">
-                <i class="bi bi-arrow-left me-1"></i> <?= current_locale() === 'en' ? 'Back to Details' : 'Kembali ke Detail' ?>
+                <?= current_locale() === 'en' ? 'Back to Details' : 'Kembali ke Detail' ?>
             </a>
         </div>
 
@@ -75,7 +75,7 @@
                     <div class="col-12 text-end pt-3 border-top">
                         <a href="<?= base_url('workorder/detail/' . $wo['id_wo']) ?>" class="btn btn-secondary me-2"><?= current_locale() === 'en' ? 'Cancel' : 'Batal' ?></a>
                         <button type="submit" class="btn btn-gold px-4">
-                            <i class="bi bi-save me-1"></i> <?= lang('WorkOrder.btn_save_changes') ?>
+                            <?= lang('WorkOrder.btn_save_changes') ?>
                         </button>
                     </div>
                 </div>

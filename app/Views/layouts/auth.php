@@ -112,7 +112,7 @@
                 </div>
             </div>
 
-            <span class="hotel-badge"><i class="bi bi-building me-1"></i> <?= lang('Navigation.hotel_name') ?></span>
+            <span class="hotel-badge"><?= lang('Navigation.hotel_name') ?></span>
             <h4 class="fw-bold mb-1"><?= lang('Navigation.app_name') ?></h4>
             <p class="text-white-50 small mb-0"><?= lang('Navigation.hospitality') ?></p>
         </div>

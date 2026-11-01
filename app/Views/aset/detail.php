@@ -23,13 +23,13 @@
     <div class="d-flex align-items-center gap-2">
         <!-- Shortcut Button to Report Work Order with Locked Asset -->
         <a href="<?= base_url('workorder/create?id_aset=' . $asset['id_aset']) ?>" class="btn btn-warning text-dark fw-bold btn-sm rounded-pill px-3 shadow-sm">
-            <i class="bi bi-tools me-1"></i> <?= lang('Aset.report_damage_this') ?>
+            <?= lang('Aset.report_damage_this') ?>
         </a>
         <a href="<?= base_url('aset/print-qr/' . $asset['id_aset']) ?>" target="_blank" class="btn btn-outline-dark btn-sm rounded-pill px-3">
-            <i class="bi bi-printer me-1"></i> <?= lang('Aset.print_qr_btn') ?>
+            <?= lang('Aset.print_qr_btn') ?>
         </a>
         <a href="<?= base_url('aset') ?>" class="btn btn-outline-secondary btn-sm rounded-pill px-3">
-            <i class="bi bi-arrow-left me-1"></i> <?= current_locale() === 'en' ? 'Back' : 'Kembali' ?>
+            <?= current_locale() === 'en' ? 'Back' : 'Kembali' ?>
         </a>
     </div>
 </div>
@@ -52,7 +52,7 @@
 
             <div class="d-grid gap-2">
                 <a href="<?= base_url($asset['qr_code_path']) ?>" download="<?= esc($asset['kode_aset']) ?>_QR.png" class="btn btn-sm btn-outline-secondary">
-                    <i class="bi bi-download me-1"></i> <?= lang('Aset.download_qr_image') ?>
+                    <?= lang('Aset.download_qr_image') ?>
                 </a>
             </div>
         </div>
@@ -94,17 +94,16 @@
         <div class="card card-custom p-4">
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <div>
-                    <h5 class="fw-bold text-dark mb-0"><i class="bi bi-clock-history text-primary me-2"></i><?= lang('Aset.repair_history_title') ?></h5>
+                    <h5 class="fw-bold text-dark mb-0"><?= lang('Aset.repair_history_title') ?></h5>
                     <small class="text-muted"><?= lang('Aset.repair_history_sub') ?></small>
                 </div>
                 <a href="<?= base_url('workorder/create?id_aset=' . $asset['id_aset']) ?>" class="btn btn-sm btn-warning text-dark fw-bold">
-                    <i class="bi bi-plus-lg me-1"></i> <?= lang('Aset.report_new_damage') ?>
+                    <?= lang('Aset.report_new_damage') ?>
                 </a>
             </div>
 
             <?php if (empty($history)): ?>
                 <div class="text-center py-5 text-muted bg-light rounded-3">
-                    <i class="bi bi-shield-check fs-1 text-success d-block mb-2"></i>
                     <h6 class="fw-bold text-dark"><?= lang('Aset.prime_condition') ?></h6>
                     <p class="small mb-0"><?= lang('Aset.no_damage_recorded') ?></p>
                 </div>
@@ -155,8 +154,8 @@
                                         Rp <?= number_format($h['total_biaya_sparepart'], 0, ',', '.') ?>
                                     </td>
                                     <td class="text-center">
-                                        <a href="<?= base_url('workorder/detail/' . $h['id_wo']) ?>" class="btn btn-sm btn-outline-primary py-1 px-2">
-                                            <i class="bi bi-eye"></i> <?= lang('Dashboard.detail_btn') ?>
+                                        <a href="<?= base_url('workorder/detail/' . $h['id_wo']) ?>" class="btn btn-sm btn-outline-primary py-1 px-3">
+                                            <?= lang('Dashboard.detail_btn') ?>
                                         </a>
                                     </td>
                                 </tr>

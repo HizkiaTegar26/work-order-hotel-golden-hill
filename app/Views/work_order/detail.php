@@ -25,10 +25,10 @@
 
     <div class="d-flex align-items-center gap-2">
         <a href="<?= base_url('workorder/export-pdf/' . $wo['id_wo']) ?>" target="_blank" class="btn btn-outline-danger btn-sm rounded-pill px-3">
-            <i class="bi bi-file-earmark-pdf me-1"></i> <?= lang('WorkOrder.btn_print_pdf') ?>
+            <?= lang('WorkOrder.btn_print_pdf') ?>
         </a>
         <a href="<?= base_url('workorder') ?>" class="btn btn-outline-secondary btn-sm rounded-pill px-3">
-            <i class="bi bi-arrow-left me-1"></i> <?= current_locale() === 'en' ? 'Back' : 'Kembali' ?>
+            <?= current_locale() === 'en' ? 'Back' : 'Kembali' ?>
         </a>
     </div>
 </div>
@@ -37,27 +37,22 @@
 <?php $sla = $wo['sla_info']; ?>
 <div class="card card-custom p-3 mb-4 border-start border-4 <?= $sla['status'] === 'overdue' ? 'border-danger bg-danger bg-opacity-10' : ($sla['status'] === 'warning' ? 'border-warning bg-warning bg-opacity-10' : 'border-success bg-white') ?>">
     <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3">
-        <div class="d-flex align-items-center gap-3">
-            <div class="fs-2 <?= $sla['status'] === 'overdue' ? 'text-danger' : ($sla['status'] === 'warning' ? 'text-warning' : 'text-success') ?>">
-                <i class="bi bi-stopwatch-fill"></i>
+        <div>
+            <div class="d-flex align-items-center gap-2">
+                <span class="fw-bold text-dark"><?= lang('WorkOrder.sla_indicator') ?></span>
+                <span class="badge <?= $sla['badge_class'] ?> fs-6"><?= $sla['badge_text'] ?></span>
             </div>
-            <div>
-                <div class="d-flex align-items-center gap-2">
-                    <span class="fw-bold text-dark"><?= lang('WorkOrder.sla_indicator') ?></span>
-                    <span class="badge <?= $sla['badge_class'] ?> fs-6"><?= $sla['badge_text'] ?></span>
-                </div>
-                <small class="text-muted">
-                    <?= lang('WorkOrder.col_priority') ?>: <strong><?= translate_priority($wo['tingkat_prioritas']) ?> (<?= lang('WorkOrder.sla_hours', [$wo['target_jam']]) ?>)</strong>
-                    <?php if ($wo['deadline']): ?>
-                        • <?= current_locale() === 'en' ? 'Deadline: ' : 'Batas Waktu: ' ?><strong><?= date('d M Y, H:i', strtotime($wo['deadline'])) ?> WIB</strong>
-                    <?php endif; ?>
-                </small>
-            </div>
+            <small class="text-muted">
+                <?= lang('WorkOrder.col_priority') ?>: <strong><?= translate_priority($wo['tingkat_prioritas']) ?> (<?= lang('WorkOrder.sla_hours', [$wo['target_jam']]) ?>)</strong>
+                <?php if ($wo['deadline']): ?>
+                    • <?= current_locale() === 'en' ? 'Deadline: ' : 'Batas Waktu: ' ?><strong><?= date('d M Y, H:i', strtotime($wo['deadline'])) ?> WIB</strong>
+                <?php endif; ?>
+            </small>
         </div>
 
         <?php if ($wo['nama_status'] === 'Escalated'): ?>
             <span class="badge bg-danger p-2 fs-6 animate-pulse">
-                <i class="bi bi-bell-fill me-1"></i> <?= lang('WorkOrder.overdue_escalated_msg') ?>
+                <?= lang('WorkOrder.overdue_escalated_msg') ?>
             </span>
         <?php endif; ?>
     </div>
@@ -78,7 +73,7 @@
 
             <?php if (!empty($wo['reject_note'])): ?>
                 <div class="alert alert-danger border-danger p-3 rounded-3 mb-4">
-                    <div class="fw-bold"><i class="bi bi-x-circle-fill me-1"></i> <?= lang('WorkOrder.section_rejection') ?></div>
+                    <div class="fw-bold"><?= lang('WorkOrder.section_rejection') ?></div>
                     <div class="small mt-1"><?= esc($wo['reject_note']) ?></div>
                     <div class="text-muted small mt-2" style="font-size: 0.72rem;"><?= lang('WorkOrder.section_verified_by', [esc($wo['nama_kadep'] ?? (current_locale() === 'en' ? 'Department Head' : 'Kepala Departemen')), date('d/m/Y H:i', strtotime($wo['verified_at']))]) ?></div>
                 </div>
@@ -93,11 +88,11 @@
                             <a href="<?= base_url($wo['foto_trouble']) ?>" target="_blank">
                                 <img src="<?= base_url($wo['foto_trouble']) ?>" class="img-fluid rounded" style="max-height: 220px; object-fit: cover;" alt="Foto Trouble">
                             </a>
-                            <div class="small text-muted mt-1"><i class="bi bi-zoom-in"></i> <?= lang('WorkOrder.photo_click_zoom') ?></div>
+                            <div class="small text-muted mt-1"><?= lang('WorkOrder.photo_click_zoom') ?></div>
                         </div>
                     <?php else: ?>
                         <div class="border rounded-3 p-4 bg-light text-center text-muted small">
-                            <i class="bi bi-image fs-3 d-block mb-1"></i> <?= lang('WorkOrder.photo_not_attached') ?>
+                            <?= lang('WorkOrder.photo_not_attached') ?>
                         </div>
                     <?php endif; ?>
                 </div>
@@ -109,11 +104,11 @@
                             <a href="<?= base_url($wo['foto_bukti_selesai']) ?>" target="_blank">
                                 <img src="<?= base_url($wo['foto_bukti_selesai']) ?>" class="img-fluid rounded" style="max-height: 220px; object-fit: cover;" alt="Foto Bukti Selesai">
                             </a>
-                            <div class="small text-success fw-semibold mt-1"><i class="bi bi-check-circle"></i> <?= lang('WorkOrder.verified_complete') ?></div>
+                            <div class="small text-success fw-semibold mt-1"><?= lang('WorkOrder.verified_complete') ?></div>
                         </div>
                     <?php else: ?>
                         <div class="border rounded-3 p-4 bg-light text-center text-muted small">
-                            <i class="bi bi-hourglass-split fs-3 d-block mb-1"></i> <?= lang('WorkOrder.photo_not_finished') ?>
+                            <?= lang('WorkOrder.photo_not_finished') ?>
                         </div>
                     <?php endif; ?>
                 </div>
@@ -124,7 +119,7 @@
         <div class="card card-custom p-4">
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <div>
-                    <h6 class="fw-bold text-dark mb-0"><i class="bi bi-archive-fill text-warning me-2"></i><?= lang('WorkOrder.section_spareparts') ?></h6>
+                    <h6 class="fw-bold text-dark mb-0"><?= lang('WorkOrder.section_spareparts') ?></h6>
                     <small class="text-muted"><?= lang('WorkOrder.spareparts_desc') ?></small>
                 </div>
                 <span class="badge bg-light text-dark border">
@@ -134,7 +129,6 @@
 
             <?php if (empty($sparepartsUsed)): ?>
                 <div class="text-center py-4 text-muted bg-light rounded-3 small">
-                    <i class="bi bi-box2 fs-3 d-block mb-1"></i>
                     <?= lang('WorkOrder.spareparts_empty') ?>
                 </div>
             <?php else: ?>
@@ -176,7 +170,7 @@
     <div class="col-lg-4">
         <!-- Operational Details Card -->
         <div class="card card-custom p-3 mb-4">
-            <h6 class="fw-bold text-dark border-bottom pb-2 mb-3"><i class="bi bi-info-circle me-1 text-primary"></i> <?= lang('WorkOrder.operational_details') ?></h6>
+            <h6 class="fw-bold text-dark border-bottom pb-2 mb-3"><?= lang('WorkOrder.operational_details') ?></h6>
 
             <table class="table table-sm table-borderless small mb-0">
                 <tr>
@@ -203,7 +197,7 @@
                         <div class="fw-semibold"><?= esc($wo['nama_pengaju']) ?></div>
                         <?php if (!empty($wo['wa_pengaju'])): ?>
                             <a href="https://wa.me/<?= preg_replace('/[^0-9]/', '', $wo['wa_pengaju']) ?>" target="_blank" class="badge bg-success text-decoration-none">
-                                <i class="bi bi-whatsapp me-1"></i> <?= esc($wo['wa_pengaju']) ?>
+                                <?= esc($wo['wa_pengaju']) ?>
                             </a>
                         <?php endif; ?>
                     </td>
@@ -215,7 +209,7 @@
                             <div class="fw-bold text-dark"><?= esc($wo['nama_handler']) ?></div>
                             <?php if (!empty($wo['wa_handler'])): ?>
                                 <a href="https://wa.me/<?= preg_replace('/[^0-9]/', '', $wo['wa_handler']) ?>" target="_blank" class="badge bg-success text-decoration-none">
-                                    <i class="bi bi-whatsapp me-1"></i> Chat WA
+                                    Chat WA
                                 </a>
                             <?php endif; ?>
                         <?php else: ?>
@@ -234,13 +228,13 @@
         <?php if (!empty($wo['nama_aset'])): ?>
             <div class="card card-custom p-3 mb-4 border-warning">
                 <div class="d-flex justify-content-between align-items-center border-bottom pb-2 mb-2">
-                    <h6 class="fw-bold text-dark mb-0"><i class="bi bi-box-seam me-1 text-warning"></i> <?= lang('WorkOrder.linked_asset') ?></h6>
+                    <h6 class="fw-bold text-dark mb-0"><?= lang('WorkOrder.linked_asset') ?></h6>
                     <span class="badge bg-dark"><?= esc($wo['kode_aset']) ?></span>
                 </div>
                 <div class="fw-bold text-dark mb-1"><?= esc($wo['nama_aset']) ?></div>
-                <small class="text-muted d-block mb-2"><i class="bi bi-geo-alt me-1"></i> <?= current_locale() === 'en' ? 'Location: ' : 'Lokasi: ' ?><?= esc($wo['aset_lokasi']) ?></small>
+                <small class="text-muted d-block mb-2"><?= current_locale() === 'en' ? 'Location: ' : 'Lokasi: ' ?><?= esc($wo['aset_lokasi']) ?></small>
                 <a href="<?= base_url('aset/detail/' . $wo['id_aset']) ?>" class="btn btn-sm btn-outline-dark w-100">
-                    <i class="bi bi-clock-history me-1"></i> <?= lang('WorkOrder.view_repair_history') ?>
+                    <?= lang('WorkOrder.view_repair_history') ?>
                 </a>
             </div>
         <?php endif; ?>
@@ -255,7 +249,7 @@
         ?>
 
         <div class="card card-custom p-3 bg-light border-0">
-            <h6 class="fw-bold text-dark mb-3"><i class="bi bi-sliders me-1"></i> <?= lang('WorkOrder.mgmt_actions') ?></h6>
+            <h6 class="fw-bold text-dark mb-3"><?= lang('WorkOrder.mgmt_actions') ?></h6>
 
             <!-- Kadep / Admin Verification Actions -->
             <?php if ($isKadepOrAdmin && (int)$wo['id_status'] === 1): // Status: Baru ?>
@@ -264,12 +258,12 @@
                         <?= csrf_field() ?>
                         <input type="hidden" name="action" value="accept">
                         <button type="submit" class="btn btn-success w-100 py-2 fw-semibold">
-                            <i class="bi bi-check-circle me-1"></i> <?= lang('WorkOrder.btn_accept') ?>
+                            <?= lang('WorkOrder.btn_accept') ?>
                         </button>
                     </form>
 
                     <button type="button" class="btn btn-outline-danger w-100 py-2 fw-semibold" data-bs-toggle="modal" data-bs-target="#rejectModal">
-                        <i class="bi bi-x-circle me-1"></i> <?= lang('WorkOrder.btn_reject') ?>
+                        <?= lang('WorkOrder.btn_reject') ?>
                     </button>
                 </div>
             <?php endif; ?>
@@ -278,11 +272,11 @@
             <?php if ($isKadepOrAdmin && in_array((int)$wo['id_status'], [1, 2, 4, 8])): ?>
                 <div class="d-grid gap-2 mb-2">
                     <button type="button" class="btn btn-primary w-100 py-2 fw-semibold" data-bs-toggle="modal" data-bs-target="#assignModal">
-                        <i class="bi bi-person-plus me-1"></i> <?= !empty($wo['assigned_to']) ? lang('WorkOrder.btn_reassign') : lang('WorkOrder.btn_assign') ?>
+                        <?= !empty($wo['assigned_to']) ? lang('WorkOrder.btn_reassign') : lang('WorkOrder.btn_assign') ?>
                     </button>
 
                     <button type="button" class="btn btn-outline-secondary btn-sm w-100 py-1" data-bs-toggle="modal" data-bs-target="#changePrioModal">
-                        <i class="bi bi-speedometer2 me-1"></i> <?= lang('WorkOrder.btn_adjust_sla') ?>
+                        <?= lang('WorkOrder.btn_adjust_sla') ?>
                     </button>
                 </div>
             <?php endif; ?>
@@ -293,21 +287,21 @@
                     <form action="<?= base_url('workorder/start-process/' . $wo['id_wo']) ?>" method="POST" class="mb-2">
                         <?= csrf_field() ?>
                         <button type="submit" class="btn btn-warning btn-mobile-touch w-100 fw-bold text-dark shadow-sm">
-                            <i class="bi bi-play-circle-fill me-2"></i> <?= lang('WorkOrder.btn_start_process') ?>
+                            <?= lang('WorkOrder.btn_start_process') ?>
                         </button>
                     </form>
                 <?php endif; ?>
 
                 <?php if (in_array((int)$wo['id_status'], [4, 5, 8])): // In Progress / Escalated ?>
                     <button type="button" class="btn btn-success btn-mobile-touch w-100 fw-bold shadow-sm" data-bs-toggle="modal" data-bs-target="#finishModal">
-                        <i class="bi bi-check2-all me-2"></i> <?= lang('WorkOrder.btn_finish_wo') ?>
+                        <?= lang('WorkOrder.btn_finish_wo') ?>
                     </button>
                 <?php endif; ?>
             <?php endif; ?>
 
             <?php if ((int)$wo['id_status'] === 6): ?>
                 <div class="alert alert-success border-0 mb-0 py-2 text-center small fw-semibold">
-                    <i class="bi bi-check-circle-fill me-1"></i> <?= lang('WorkOrder.wo_already_completed') ?>
+                    <?= lang('WorkOrder.wo_already_completed') ?>
                 </div>
             <?php endif; ?>
         </div>
@@ -323,22 +317,22 @@
                     <?= csrf_field() ?>
                     <input type="hidden" name="action" value="accept">
                     <button type="submit" class="btn btn-success btn-mobile-touch w-100 shadow">
-                        <i class="bi bi-check-circle me-1"></i> <?= lang('WorkOrder.btn_accept') ?>
+                        <?= lang('WorkOrder.btn_accept') ?>
                     </button>
                 </form>
-                <button type="button" class="btn btn-outline-danger btn-mobile-touch px-3" data-bs-toggle="modal" data-bs-target="#rejectModal">
-                    <i class="bi bi-x-circle"></i>
+                <button type="button" class="btn btn-outline-danger btn-mobile-touch px-3" data-bs-toggle="modal" data-bs-target="#rejectModal" title="<?= lang('WorkOrder.btn_reject') ?>">
+                    <?= lang('WorkOrder.btn_reject') ?>
                 </button>
             <?php elseif ($isHandlerOrAdmin && in_array((int)$wo['id_status'], [2, 4])): ?>
                 <form action="<?= base_url('workorder/start-process/' . $wo['id_wo']) ?>" method="POST" class="w-100">
                     <?= csrf_field() ?>
                     <button type="submit" class="btn btn-warning btn-mobile-touch w-100 fw-bold text-dark shadow">
-                        <i class="bi bi-play-circle-fill me-2 fs-5"></i> <?= lang('WorkOrder.btn_start_process') ?> (1-Klik)
+                        <?= lang('WorkOrder.btn_start_process') ?> (1-Klik)
                     </button>
                 </form>
             <?php elseif ($isHandlerOrAdmin && in_array((int)$wo['id_status'], [5, 8])): ?>
                 <button type="button" class="btn btn-success btn-mobile-touch w-100 fw-bold shadow" data-bs-toggle="modal" data-bs-target="#finishModal">
-                    <i class="bi bi-check2-all me-2 fs-5"></i> <?= lang('WorkOrder.btn_finish_wo') ?>
+                    <?= lang('WorkOrder.btn_finish_wo') ?>
                 </button>
             <?php endif; ?>
         </div>
@@ -350,7 +344,7 @@
     <div class="modal-dialog">
         <div class="modal-content border-0 shadow">
             <div class="modal-header bg-danger text-white">
-                <h5 class="modal-title fs-6"><i class="bi bi-x-circle me-1"></i> <?= lang('WorkOrder.modal_reject_title') ?></h5>
+                <h5 class="modal-title fs-6"><?= lang('WorkOrder.modal_reject_title') ?></h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
             <form action="<?= base_url('workorder/verify/' . $wo['id_wo']) ?>" method="POST">
@@ -375,7 +369,7 @@
     <div class="modal-dialog">
         <div class="modal-content border-0 shadow">
             <div class="modal-header bg-primary text-white">
-                <h5 class="modal-title fs-6"><i class="bi bi-person-check me-1"></i> <?= lang('WorkOrder.modal_assign_title') ?></h5>
+                <h5 class="modal-title fs-6"><?= lang('WorkOrder.modal_assign_title') ?></h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
             <form action="<?= base_url('workorder/assign/' . $wo['id_wo']) ?>" method="POST">
@@ -391,7 +385,7 @@
                         <?php endforeach; ?>
                     </select>
                     <div class="form-text small text-muted mt-2">
-                        <i class="bi bi-whatsapp text-success me-1"></i> <?= lang('WorkOrder.modal_assign_help') ?>
+                        <?= lang('WorkOrder.modal_assign_help') ?>
                     </div>
                 </div>
                 <div class="modal-footer bg-light">
@@ -408,7 +402,7 @@
     <div class="modal-dialog">
         <div class="modal-content border-0 shadow">
             <div class="modal-header bg-dark text-white">
-                <h5 class="modal-title fs-6"><i class="bi bi-speedometer2 me-1"></i> <?= lang('WorkOrder.modal_prio_title') ?></h5>
+                <h5 class="modal-title fs-6"><?= lang('WorkOrder.modal_prio_title') ?></h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
             <form action="<?= base_url('workorder/change-priority/' . $wo['id_wo']) ?>" method="POST">
@@ -438,7 +432,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content border-0 shadow">
             <div class="modal-header bg-success text-white">
-                <h5 class="modal-title fs-6"><i class="bi bi-check-circle me-1"></i> <?= lang('WorkOrder.modal_finish_title') ?></h5>
+                <h5 class="modal-title fs-6"><?= lang('WorkOrder.modal_finish_title') ?></h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
             <form action="<?= base_url('workorder/finish/' . $wo['id_wo']) ?>" method="POST" enctype="multipart/form-data">
@@ -499,7 +493,7 @@
                                     </table>
                                 </div>
                                 <button type="button" class="btn btn-sm btn-outline-primary" onclick="addRow()">
-                                    <i class="bi bi-plus-lg me-1"></i> <?= lang('WorkOrder.btn_add_part_row') ?>
+                                    <?= lang('WorkOrder.btn_add_part_row') ?>
                                 </button>
                             </div>
                         </div>
@@ -508,7 +502,7 @@
                 <div class="modal-footer bg-light">
                     <button type="button" class="btn btn-secondary px-3" data-bs-dismiss="modal"><?= current_locale() === 'en' ? 'Cancel' : 'Batal' ?></button>
                     <button type="submit" class="btn btn-success btn-mobile-touch fw-bold px-4 shadow">
-                        <i class="bi bi-check-lg me-1"></i> <?= lang('WorkOrder.btn_finish_confirm') ?>
+                        <?= lang('WorkOrder.btn_finish_confirm') ?>
                     </button>
                 </div>
             </form>

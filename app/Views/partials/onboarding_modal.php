@@ -5,7 +5,7 @@
             <!-- Header with Gradient & Close Button -->
             <div class="modal-header bg-dark text-white border-0 py-3 px-4 position-relative" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%) !important;">
                 <div class="d-flex align-items-center gap-2">
-                    <span class="badge bg-warning text-dark px-2 py-1 fw-bold"><i class="bi bi-compass-fill me-1"></i> Interactive Guide</span>
+                    <span class="badge bg-warning text-dark px-2 py-1 fw-bold">Interactive Guide</span>
                     <h5 class="modal-title fw-bold mb-0 text-white fs-6" id="onboardingModalLabel">
                         <?= current_locale() === 'en' ? 'Quick Field Operations Guide V2.0' : 'Panduan Ringkas Operasional Lapangan V2.0' ?>
                     </h5>
@@ -74,14 +74,12 @@
                     <div class="row g-2 text-start small">
                         <div class="col-6">
                             <div class="p-3 bg-light rounded-3 border">
-                                <i class="bi bi-lightbulb text-warning fs-4 d-block mb-1"></i>
                                 <strong><?= current_locale() === 'en' ? 'Flashlight / Torch' : 'Lampu Senter' ?></strong>
                                 <p class="text-muted mb-0 mt-1"><?= current_locale() === 'en' ? 'Active on supported mobile devices for low-light scans.' : 'Dapat diaktifkan langsung dari layar scanner tanpa aplikasi tambahan.' ?></p>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="p-3 bg-light rounded-3 border">
-                                <i class="bi bi-keyboard text-primary fs-4 d-block mb-1"></i>
                                 <strong><?= current_locale() === 'en' ? 'Direct Code Fallback' : 'Input Manual Cadangan' ?></strong>
                                 <p class="text-muted mb-0 mt-1"><?= current_locale() === 'en' ? 'Enter asset code or select from searchable list if camera is unavailable.' : 'Ketik kode aset atau pilih dari daftar jika izin kamera ditolak peramban.' ?></p>
                             </div>
@@ -129,7 +127,6 @@
                             : 'Ketika bekerja di ruang mesin genset atau basement tanpa sinyal, formulir tetap dapat diisi dan disimpan secara lokal. Begitu kembali terhubung, sistem otomatis mengunggahnya.' ?>
                     </p>
                     <div class="alert alert-info border-info border-opacity-25 p-3 rounded-3 text-start small mb-0">
-                        <i class="bi bi-cloud-arrow-up-fill text-info me-2 fs-5"></i>
                         <strong><?= current_locale() === 'en' ? 'Zero Data Loss Guarantee' : 'Jaminan Tanpa Kehilangan Data' ?>:</strong>
                         <?= current_locale() === 'en'
                             ? 'The bottom connectivity banner informs you of offline status and confirms successful background sync.'
@@ -148,13 +145,13 @@
                 </div>
                 <div class="d-flex gap-2">
                     <button type="button" class="btn btn-outline-secondary btn-sm rounded-pill px-3" id="prevOnboardingBtn" onclick="prevOnboardingStep()" style="display: none;">
-                        <i class="bi bi-chevron-left me-1"></i> <?= current_locale() === 'en' ? 'Back' : 'Sebelumnya' ?>
+                        <?= current_locale() === 'en' ? 'Back' : 'Sebelumnya' ?>
                     </button>
                     <button type="button" class="btn btn-gold btn-sm rounded-pill px-4 fw-bold" id="nextOnboardingBtn" onclick="nextOnboardingStep()">
-                        <?= current_locale() === 'en' ? 'Next' : 'Selanjutnya' ?> <i class="bi bi-chevron-right ms-1"></i>
+                        <?= current_locale() === 'en' ? 'Next' : 'Selanjutnya' ?>
                     </button>
                     <button type="button" class="btn btn-success btn-sm rounded-pill px-4 fw-bold" id="finishOnboardingBtn" onclick="finishOnboarding()" style="display: none;">
-                        <i class="bi bi-check-lg me-1"></i> <?= current_locale() === 'en' ? 'Got It!' : 'Saya Mengerti!' ?>
+                        <?= current_locale() === 'en' ? 'Got It!' : 'Saya Mengerti!' ?>
                     </button>
                 </div>
             </div>
