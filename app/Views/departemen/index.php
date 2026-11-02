@@ -34,9 +34,12 @@
                                     <button type="button" class="btn btn-sm btn-outline-secondary py-1 px-2" data-bs-toggle="modal" data-bs-target="#editDeptModal<?= $d['id_departemen'] ?>" title="<?= lang('General.edit') ?>">
                                         <i class="bi bi-pencil"></i>
                                     </button>
-                                    <a href="<?= base_url('departemen/delete/' . $d['id_departemen']) ?>" class="btn btn-sm btn-outline-danger py-1 px-2" title="<?= lang('General.delete') ?>" onclick="return confirm('<?= lang('General.confirm_delete') ?>');">
-                                        <i class="bi bi-trash"></i>
-                                    </a>
+                                    <form action="<?= base_url('departemen/delete/' . $d['id_departemen']) ?>" method="POST" class="d-inline" onsubmit="return confirm('<?= lang('General.confirm_delete') ?>');">
+                                        <?= csrf_field() ?>
+                                        <button type="submit" class="btn btn-sm btn-outline-danger py-1 px-2" title="<?= lang('General.delete') ?>">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
 

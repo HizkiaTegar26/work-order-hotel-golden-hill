@@ -51,9 +51,12 @@
                                 <i class="bi bi-pencil"></i>
                             </button>
                             <?php if (session()->get('id_role') == 1): ?>
-                                <a href="<?= base_url('inventaris/delete/' . $item['id_barang']) ?>" class="btn btn-sm btn-outline-danger py-1 px-2" title="<?= lang('General.delete') ?>" onclick="return confirm('<?= lang('General.confirm_delete') ?>');">
-                                    <i class="bi bi-trash"></i>
-                                </a>
+                                <form action="<?= base_url('inventaris/delete/' . $item['id_barang']) ?>" method="POST" class="d-inline" onsubmit="return confirm('<?= lang('General.confirm_delete') ?>');">
+                                    <?= csrf_field() ?>
+                                    <button type="submit" class="btn btn-sm btn-outline-danger py-1 px-2" title="<?= lang('General.delete') ?>">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </form>
                             <?php endif; ?>
                         </td>
                     </tr>

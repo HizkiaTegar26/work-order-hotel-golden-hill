@@ -76,9 +76,12 @@
                                     <a href="<?= base_url('aset/edit/' . $ast['id_aset']) ?>" class="btn btn-outline-secondary" title="<?= current_locale() === 'en' ? 'Edit Asset' : 'Edit Aset' ?>">
                                         <i class="bi bi-pencil"></i>
                                     </a>
-                                    <a href="<?= base_url('aset/delete/' . $ast['id_aset']) ?>" class="btn btn-outline-danger" title="<?= current_locale() === 'en' ? 'Delete Asset' : 'Hapus Aset' ?>" onclick="return confirm('<?= current_locale() === 'en' ? 'Delete this asset and its QR code?' : 'Hapus aset ini beserta QR code terkait?' ?>');">
-                                        <i class="bi bi-trash"></i>
-                                    </a>
+                                    <form action="<?= base_url('aset/delete/' . $ast['id_aset']) ?>" method="POST" class="d-inline" onsubmit="return confirm('<?= current_locale() === 'en' ? 'Delete this asset and its QR code?' : 'Hapus aset ini beserta QR code terkait?' ?>');">
+                                        <?= csrf_field() ?>
+                                        <button type="submit" class="btn btn-outline-danger" title="<?= current_locale() === 'en' ? 'Delete Asset' : 'Hapus Aset' ?>">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </form>
                                 <?php endif; ?>
                             </div>
                         </td>

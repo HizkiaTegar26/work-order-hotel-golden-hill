@@ -140,10 +140,11 @@ class WorkOrder extends BaseController
             'id_kategori'   => 'required|is_not_unique[kategori_wo.id_kategori]',
             'id_prioritas'  => 'required|is_not_unique[prioritas_sla.id_prioritas]',
             'id_departemen' => 'required|is_not_unique[departemen.id_departemen]',
+            'foto_trouble'  => 'max_size[foto_trouble,4096]|is_image[foto_trouble]|ext_in[foto_trouble,jpg,jpeg,png,webp]|mime_in[foto_trouble,image/jpg,image/jpeg,image/png,image/webp]',
         ];
 
         if (!$this->validate($validationRule)) {
-            return redirect()->back()->withInput()->with('error', 'Harap lengkapi semua kolom dengan benar.');
+            return redirect()->back()->withInput()->with('error', 'Harap lengkapi semua kolom dengan benar dan pastikan format file gambar valid (JPG/PNG/WEBP maks 4MB).');
         }
 
         $userId = (int) session()->get('user_id');
@@ -288,6 +289,18 @@ class WorkOrder extends BaseController
             return redirect()->to(base_url('workorder/detail/' . $id))->with('error', 'Anda tidak berhak mengedit WO ini.');
         }
 
+        $validationRule = [
+            'judul_wo'      => 'required|min_length[3]|max_length[150]',
+            'deskripsi'     => 'required|min_length[5]',
+            'id_kategori'   => 'required|is_not_unique[kategori_wo.id_kategori]',
+            'id_departemen' => 'required|is_not_unique[departemen.id_departemen]',
+            'foto_trouble'  => 'max_size[foto_trouble,4096]|is_image[foto_trouble]|ext_in[foto_trouble,jpg,jpeg,png,webp]|mime_in[foto_trouble,image/jpg,image/jpeg,image/png,image/webp]',
+        ];
+
+        if (!$this->validate($validationRule)) {
+            return redirect()->back()->withInput()->with('error', 'Harap periksa form dan pastikan file foto valid (JPG/PNG/WEBP maks 4MB).');
+        }
+
         $updateData = [
             'judul_wo'      => trim($this->request->getPost('judul_wo')),
             'deskripsi'     => trim($this->request->getPost('deskripsi')),
@@ -301,6 +314,9 @@ class WorkOrder extends BaseController
         if ($file && $file->isValid() && !$file->hasMoved()) {
             $newName = $file->getRandomName();
             $file->move(FCPATH . 'uploads/trouble', $newName);
+            if (!empty($wo['foto_trouble']) && file_exists(FCPATH . $wo['foto_trouble'])) {
+                @unlink(FCPATH . $wo['foto_trouble']);
+            }
             $updateData['foto_trouble'] = 'uploads/trouble/' . $newName;
         }
 
@@ -326,6 +342,14 @@ class WorkOrder extends BaseController
 
         if ((int)$wo['id_user'] !== $userId && $roleId !== 1) {
             return redirect()->to(base_url('workorder/detail/' . $id))->with('error', 'Anda hanya dapat menghapus WO milik Anda sendiri.');
+        }
+
+        // Clean up uploaded files if any
+        if (!empty($wo['foto_trouble']) && file_exists(FCPATH . $wo['foto_trouble'])) {
+            @unlink(FCPATH . $wo['foto_trouble']);
+        }
+        if (!empty($wo['foto_bukti_selesai']) && file_exists(FCPATH . $wo['foto_bukti_selesai'])) {
+            @unlink(FCPATH . $wo['foto_bukti_selesai']);
         }
 
         $this->woModel->delete($id);
@@ -463,6 +487,15 @@ class WorkOrder extends BaseController
         $wo = $this->woModel->find($id);
         if (!$wo) return redirect()->back()->with('error', 'WO tidak ditemukan.');
 
+        $validationRule = [
+            'durasi_menit_pengerjaan' => 'required|numeric',
+            'foto_bukti_selesai'      => 'max_size[foto_bukti_selesai,4096]|is_image[foto_bukti_selesai]|ext_in[foto_bukti_selesai,jpg,jpeg,png,webp]|mime_in[foto_bukti_selesai,image/jpg,image/jpeg,image/png,image/webp]',
+        ];
+
+        if (!$this->validate($validationRule)) {
+            return redirect()->back()->withInput()->with('error', 'Harap periksa durasi pengerjaan dan pastikan file foto bukti valid (JPG/PNG/WEBP maks 4MB).');
+        }
+
         $userId = (int) session()->get('user_id');
         $durasiMenit = (int) $this->request->getPost('durasi_menit_pengerjaan');
 
@@ -493,8 +526,11 @@ class WorkOrder extends BaseController
                         // Pessimistic Lock Row via SELECT ... FOR UPDATE
                         $lockResult = $this->barangModel->deductStockPessimistic($idBarang, $qty);
                         if (!$lockResult['success']) {
-                            // Rollback transaction immediately on insufficient stock
+                            // Rollback transaction immediately on insufficient stock & clean up uploaded photo
                             $db->transRollback();
+                            if ($fotoBuktiName && file_exists(FCPATH . $fotoBuktiName)) {
+                                @unlink(FCPATH . $fotoBuktiName);
+                            }
                             return redirect()->back()->withInput()->with('error', "Stok barang tidak mencukupi: " . $lockResult['error']);
                         }
 
@@ -525,6 +561,9 @@ class WorkOrder extends BaseController
             $db->transCommit();
         } catch (\Throwable $e) {
             $db->transRollback();
+            if ($fotoBuktiName && file_exists(FCPATH . $fotoBuktiName)) {
+                @unlink(FCPATH . $fotoBuktiName);
+            }
             return redirect()->back()->withInput()->with('error', "Gagal menyelesaikan Work Order: " . $e->getMessage());
         }
 

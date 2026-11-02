@@ -66,13 +66,19 @@
                                 <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#editUserModal<?= $u['id_user'] ?>" title="<?= current_locale() === 'en' ? 'Edit User / Switch Role' : 'Edit User / Switch Role' ?>">
                                     <i class="bi bi-pencil"></i>
                                 </button>
-                                <a href="<?= base_url('users/toggle/' . $u['id_user']) ?>" class="btn btn-outline-warning text-dark" title="<?= current_locale() === 'en' ? 'Toggle Active Status' : 'Toggle Status Aktif' ?>">
-                                    <i class="bi bi-power"></i>
-                                </a>
+                                <form action="<?= base_url('users/toggle/' . $u['id_user']) ?>" method="POST" class="d-inline">
+                                    <?= csrf_field() ?>
+                                    <button type="submit" class="btn btn-outline-warning text-dark" title="<?= current_locale() === 'en' ? 'Toggle Active Status' : 'Toggle Status Aktif' ?>">
+                                        <i class="bi bi-power"></i>
+                                    </button>
+                                </form>
                                 <?php if ($u['id_user'] != session()->get('user_id')): ?>
-                                    <a href="<?= base_url('users/delete/' . $u['id_user']) ?>" class="btn btn-outline-danger" title="<?= lang('General.delete') ?>" onclick="return confirm('<?= current_locale() === 'en' ? 'Delete this account permanently?' : 'Hapus akun ini secara permanen?' ?>');">
-                                        <i class="bi bi-trash"></i>
-                                    </a>
+                                    <form action="<?= base_url('users/delete/' . $u['id_user']) ?>" method="POST" class="d-inline" onsubmit="return confirm('<?= current_locale() === 'en' ? 'Delete this account permanently?' : 'Hapus akun ini secara permanen?' ?>');">
+                                        <?= csrf_field() ?>
+                                        <button type="submit" class="btn btn-outline-danger" title="<?= lang('General.delete') ?>">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </form>
                                 <?php endif; ?>
                             </div>
                         </td>

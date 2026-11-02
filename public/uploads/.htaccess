@@ -1,0 +1,16 @@
+# Apache Security Hardening for Upload Directory
+# Disallow script execution (PHP, Perl, Python, CGI, etc.)
+<FilesMatch "\.(php|php[0-9]|phtml|pl|py|jsp|asp|htm|html|sh|cgi|phar)$">
+    Order Deny,Allow
+    Deny from all
+</FilesMatch>
+
+# Disable directory listing and CGI execution
+Options -Indexes -ExecCGI
+
+<IfModule mod_php7.c>
+    php_flag engine off
+</IfModule>
+<IfModule mod_php.c>
+    php_flag engine off
+</IfModule>

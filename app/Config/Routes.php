@@ -34,7 +34,7 @@ $routes->group('', ['filter' => 'auth'], function($routes) {
     $routes->get('workorder/detail/(:num)', 'WorkOrder::detail/$1');
     $routes->get('workorder/edit/(:num)', 'WorkOrder::edit/$1');
     $routes->post('workorder/update/(:num)', 'WorkOrder::update/$1');
-    $routes->get('workorder/delete/(:num)', 'WorkOrder::delete/$1');
+    $routes->post('workorder/delete/(:num)', 'WorkOrder::delete/$1');
     $routes->post('workorder/verify/(:num)', 'WorkOrder::verify/$1');
     $routes->post('workorder/assign/(:num)', 'WorkOrder::assign/$1');
     $routes->post('workorder/change-priority/(:num)', 'WorkOrder::changePriority/$1');
@@ -55,7 +55,7 @@ $routes->group('', ['filter' => 'auth'], function($routes) {
     $routes->get('aset/detail/(:num)', 'Aset::detail/$1');
     $routes->get('aset/edit/(:num)', 'Aset::edit/$1');
     $routes->post('aset/update/(:num)', 'Aset::update/$1');
-    $routes->get('aset/delete/(:num)', 'Aset::delete/$1', ['filter' => 'role:admin']);
+    $routes->post('aset/delete/(:num)', 'Aset::delete/$1', ['filter' => 'role:admin']);
     $routes->get('aset/print-qr', 'Aset::printQr');
     $routes->get('aset/print-qr/(:num)', 'Aset::printQr/$1');
 
@@ -63,7 +63,7 @@ $routes->group('', ['filter' => 'auth'], function($routes) {
     $routes->get('inventaris', 'Inventaris::index');
     $routes->post('inventaris/store', 'Inventaris::store');
     $routes->post('inventaris/update/(:num)', 'Inventaris::update/$1');
-    $routes->get('inventaris/delete/(:num)', 'Inventaris::delete/$1', ['filter' => 'role:admin']);
+    $routes->post('inventaris/delete/(:num)', 'Inventaris::delete/$1', ['filter' => 'role:admin']);
 
     // Admin Only Modules
     $routes->group('', ['filter' => 'role:admin'], function($routes) {
@@ -71,14 +71,14 @@ $routes->group('', ['filter' => 'auth'], function($routes) {
         $routes->get('users', 'User::index');
         $routes->post('users/store', 'User::store');
         $routes->post('users/update/(:num)', 'User::update/$1');
-        $routes->get('users/toggle/(:num)', 'User::toggleStatus/$1');
-        $routes->get('users/delete/(:num)', 'User::delete/$1');
+        $routes->post('users/toggle/(:num)', 'User::toggleStatus/$1');
+        $routes->post('users/delete/(:num)', 'User::delete/$1');
 
         // Department Management
         $routes->get('departemen', 'Departemen::index');
         $routes->post('departemen/store', 'Departemen::store');
         $routes->post('departemen/update/(:num)', 'Departemen::update/$1');
-        $routes->get('departemen/delete/(:num)', 'Departemen::delete/$1');
+        $routes->post('departemen/delete/(:num)', 'Departemen::delete/$1');
 
         // Audit Trail Logs
         $routes->get('audit', 'Audit::index');

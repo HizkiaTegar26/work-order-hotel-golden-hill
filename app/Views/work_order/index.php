@@ -182,9 +182,12 @@
                                     <a href="<?= base_url('workorder/edit/' . $wo['id_wo']) ?>" class="btn btn-outline-secondary" title="Edit WO">
                                         <i class="bi bi-pencil"></i>
                                     </a>
-                                    <a href="<?= base_url('workorder/delete/' . $wo['id_wo']) ?>" class="btn btn-outline-danger" title="Hapus WO" onclick="return confirm('<?= current_locale() === 'en' ? 'Delete this Work Order?' : 'Hapus Work Order ini?' ?>');">
-                                        <i class="bi bi-trash"></i>
-                                    </a>
+                                    <form action="<?= base_url('workorder/delete/' . $wo['id_wo']) ?>" method="POST" class="d-inline" onsubmit="return confirm('<?= current_locale() === 'en' ? 'Delete this Work Order?' : 'Hapus Work Order ini?' ?>');">
+                                        <?= csrf_field() ?>
+                                        <button type="submit" class="btn btn-outline-danger" title="Hapus WO">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </form>
                                 <?php endif; ?>
                             </div>
                         </td>
