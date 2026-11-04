@@ -45,6 +45,10 @@ return [
     'role'                  => 'Peran (Role)',
     'account_status'        => 'Status Akun',
     'edit_user'             => 'Edit Pengguna: {0}',
+    'delete_user'           => 'Hapus Pengguna',
+    'delete_user_title'     => 'Konfirmasi Hapus Pengguna',
+    'delete_user_confirm'   => 'Apakah Anda yakin ingin menghapus akun pengguna {0} ({1}) secara permanen?',
+    'delete_user_warning'   => 'Tindakan ini tidak dapat dibatalkan. Jika pengguna ini memiliki riwayat Work Order, Anda disarankan untuk menonaktifkan status akun daripada menghapusnya.',
     'new_password_optional' => 'Kata Sandi Baru (Kosongkan jika tidak diubah)',
     
     // Departments

@@ -62,23 +62,20 @@
                             <?php endif; ?>
                         </td>
                         <td class="text-center">
-                            <div class="btn-group btn-group-sm">
-                                <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#editUserModal<?= $u['id_user'] ?>" title="<?= current_locale() === 'en' ? 'Edit User / Switch Role' : 'Edit User / Switch Role' ?>">
+                            <div class="d-inline-flex align-items-center gap-1">
+                                <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#editUserModal<?= $u['id_user'] ?>" title="<?= current_locale() === 'en' ? 'Edit User / Switch Role' : 'Edit User / Switch Role' ?>">
                                     <i class="bi bi-pencil"></i>
                                 </button>
-                                <form action="<?= base_url('users/toggle/' . $u['id_user']) ?>" method="POST" class="d-inline">
+                                <form action="<?= base_url('users/toggle/' . $u['id_user']) ?>" method="POST" class="d-inline m-0">
                                     <?= csrf_field() ?>
-                                    <button type="submit" class="btn btn-outline-warning text-dark" title="<?= current_locale() === 'en' ? 'Toggle Active Status' : 'Toggle Status Aktif' ?>">
+                                    <button type="submit" class="btn btn-sm btn-outline-warning text-dark" title="<?= current_locale() === 'en' ? 'Toggle Active Status' : 'Toggle Status Aktif' ?>">
                                         <i class="bi bi-power"></i>
                                     </button>
                                 </form>
                                 <?php if ($u['id_user'] != session()->get('user_id')): ?>
-                                    <form action="<?= base_url('users/delete/' . $u['id_user']) ?>" method="POST" class="d-inline" onsubmit="return confirm('<?= current_locale() === 'en' ? 'Delete this account permanently?' : 'Hapus akun ini secara permanen?' ?>');">
-                                        <?= csrf_field() ?>
-                                        <button type="submit" class="btn btn-outline-danger" title="<?= lang('General.delete') ?>">
-                                            <i class="bi bi-trash"></i>
-                                        </button>
-                                    </form>
+                                    <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteUserModal<?= $u['id_user'] ?>" title="<?= lang('General.delete_user') ?>">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
                                 <?php endif; ?>
                             </div>
                         </td>
@@ -134,14 +131,73 @@
                                             <input type="password" name="password" class="form-control" placeholder="••••••••">
                                         </div>
                                     </div>
-                                    <div class="modal-footer bg-light">
-                                        <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal"><?= lang('General.cancel') ?></button>
-                                        <button type="submit" class="btn btn-sm btn-gold"><?= lang('WorkOrder.btn_save_changes') ?></button>
+                                    <div class="modal-footer bg-light d-flex justify-content-between">
+                                        <div>
+                                            <?php if ($u['id_user'] != session()->get('user_id')): ?>
+                                                <button type="button" class="btn btn-sm btn-outline-danger" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#deleteUserModal<?= $u['id_user'] ?>">
+                                                    <i class="bi bi-trash me-1"></i><?= lang('General.delete_user') ?>
+                                                </button>
+                                            <?php endif; ?>
+                                        </div>
+                                        <div class="d-flex gap-2">
+                                            <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal"><?= lang('General.cancel') ?></button>
+                                            <button type="submit" class="btn btn-sm btn-gold"><?= lang('WorkOrder.btn_save_changes') ?></button>
+                                        </div>
                                     </div>
                                 </form>
                             </div>
                         </div>
                     </div>
+
+                    <?php if ($u['id_user'] != session()->get('user_id')): ?>
+                        <!-- Delete User Confirmation Modal -->
+                        <div class="modal fade" id="deleteUserModal<?= $u['id_user'] ?>" tabindex="-1">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content border-0 shadow-lg" style="border-radius: 14px;">
+                                    <div class="modal-header bg-danger text-white border-0 py-3">
+                                        <h5 class="modal-title fs-6 fw-bold">
+                                            <i class="bi bi-exclamation-triangle-fill me-2"></i><?= lang('General.delete_user_title') ?>
+                                        </h5>
+                                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                                    </div>
+                                    <div class="modal-body p-4 text-start">
+                                        <p class="mb-3">
+                                            <?= lang('General.delete_user_confirm', [
+                                                '<strong>' . esc($u['nama_lengkap']) . '</strong>',
+                                                '<code>' . esc($u['username']) . '</code>'
+                                            ]) ?>
+                                        </p>
+                                        <div class="bg-light p-3 rounded-3 mb-3 border">
+                                            <div class="d-flex justify-content-between mb-1">
+                                                <span class="text-muted small"><?= lang('General.role') ?>:</span>
+                                                <span class="fw-semibold small"><?= esc($u['nama_role']) ?></span>
+                                            </div>
+                                            <div class="d-flex justify-content-between mb-1">
+                                                <span class="text-muted small"><?= lang('General.department') ?>:</span>
+                                                <span class="fw-semibold small"><?= esc($u['nama_departemen']) ?></span>
+                                            </div>
+                                            <div class="d-flex justify-content-between">
+                                                <span class="text-muted small"><?= lang('General.account_status') ?>:</span>
+                                                <span class="small"><?= (int)$u['status_aktif'] === 1 ? '<span class="text-success fw-bold">' . lang('General.active') . '</span>' : '<span class="text-danger fw-bold">' . lang('General.inactive') . '</span>' ?></span>
+                                            </div>
+                                        </div>
+                                        <div class="alert alert-warning border-0 small py-2 px-3 mb-0">
+                                            <i class="bi bi-info-circle me-1"></i> <?= lang('General.delete_user_warning') ?>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer bg-light border-0 py-2">
+                                        <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal"><?= lang('General.cancel') ?></button>
+                                        <form action="<?= base_url('users/delete/' . $u['id_user']) ?>" method="POST" class="d-inline m-0">
+                                            <?= csrf_field() ?>
+                                            <button type="submit" class="btn btn-sm btn-danger fw-semibold px-3">
+                                                <i class="bi bi-trash me-1"></i> <?= lang('General.delete_user') ?>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endif; ?>
                 <?php endforeach; ?>
             </tbody>
         </table>

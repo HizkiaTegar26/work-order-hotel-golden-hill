@@ -118,15 +118,38 @@ class User extends BaseController
     public function delete($id)
     {
         $user = $this->userModel->find($id);
-        if (!$user) return redirect()->to(base_url('users'))->with('error', 'Pengguna tidak ditemukan.');
+        if (!$user) {
+            return redirect()->to(base_url('users'))->with('error', 'Pengguna tidak ditemukan.');
+        }
 
         if ((int)$id === (int)session()->get('user_id')) {
             return redirect()->to(base_url('users'))->with('error', 'Anda tidak dapat menghapus akun Anda sendiri.');
         }
 
-        $this->userModel->delete($id);
-        $this->audit->log("Menghapus akun pengguna {$user['username']}", 'Manajemen User');
+        // Integrity check: Check if user has associated Work Orders as creator, assignee, or verifier
+        $woModel = new \App\Models\WorkOrderModel();
+        $createdWoCount  = $woModel->where('id_user', $id)->countAllResults();
+        $assignedWoCount = $woModel->where('assigned_to', $id)->countAllResults();
+        $verifiedWoCount = $woModel->where('verified_by', $id)->countAllResults();
 
-        return redirect()->to(base_url('users'))->with('success', "Pengguna {$user['nama_lengkap']} berhasil dihapus.");
+        if ($createdWoCount > 0 || $assignedWoCount > 0 || $verifiedWoCount > 0) {
+            $details = [];
+            if ($createdWoCount > 0)  $details[] = "{$createdWoCount} tiket diajukan";
+            if ($assignedWoCount > 0) $details[] = "{$assignedWoCount} tiket ditugaskan";
+            if ($verifiedWoCount > 0) $details[] = "{$verifiedWoCount} tiket diverifikasi";
+            $detailStr = implode(', ', $details);
+
+            return redirect()->to(base_url('users'))->with('error', 
+                "Akun {$user['nama_lengkap']} tidak dapat dihapus permanen karena masih memiliki riwayat Work Order ({$detailStr}). Untuk menjaga integritas data dan riwayat audit hotel, silakan nonaktifkan akun menggunakan tombol Power."
+            );
+        }
+
+        try {
+            $this->userModel->delete($id);
+            $this->audit->log("Menghapus akun pengguna {$user['username']} ({$user['nama_lengkap']})", 'Manajemen User');
+            return redirect()->to(base_url('users'))->with('success', "Pengguna {$user['nama_lengkap']} berhasil dihapus dari sistem.");
+        } catch (\Throwable $e) {
+            return redirect()->to(base_url('users'))->with('error', "Gagal menghapus pengguna: " . $e->getMessage());
+        }
     }
 }

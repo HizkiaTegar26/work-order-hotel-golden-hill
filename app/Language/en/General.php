@@ -45,6 +45,10 @@ return [
     'role'                  => 'Role',
     'account_status'        => 'Account Status',
     'edit_user'             => 'Edit User: {0}',
+    'delete_user'           => 'Delete User',
+    'delete_user_title'     => 'Confirm User Deletion',
+    'delete_user_confirm'   => 'Are you sure you want to permanently delete user account {0} ({1})?',
+    'delete_user_warning'   => 'This action cannot be undone. If this user has related Work Order history, you are advised to deactivate the account instead of deleting it.',
     'new_password_optional' => 'New Password (Leave blank if not changing)',
     
     // Departments
