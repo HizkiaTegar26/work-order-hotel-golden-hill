@@ -35,10 +35,11 @@
 
 <!-- SLA Countdown Banner -->
 <?php $sla = $wo['sla_info']; ?>
-<div class="card card-custom p-3 mb-4 border-start border-4 <?= $sla['status'] === 'overdue' ? 'border-danger bg-danger bg-opacity-10' : ($sla['status'] === 'warning' ? 'border-warning bg-warning bg-opacity-10' : 'border-success bg-white') ?>">
+<div class="card card-custom p-3 mb-4 <?= $sla['status'] === 'overdue' ? 'bg-danger bg-opacity-10 border-danger border-opacity-25' : ($sla['status'] === 'warning' ? 'bg-warning bg-opacity-10 border-warning border-opacity-25' : 'bg-white') ?>">
     <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3">
         <div>
             <div class="d-flex align-items-center gap-2">
+                <span class="status-dot <?= $sla['status'] === 'overdue' ? 'bg-danger animate-pulse' : ($sla['status'] === 'warning' ? 'bg-warning' : 'bg-success') ?>"></span>
                 <span class="fw-bold text-dark"><?= lang('WorkOrder.sla_indicator') ?></span>
                 <span class="badge <?= $sla['badge_class'] ?> fs-6"><?= $sla['badge_text'] ?></span>
             </div>

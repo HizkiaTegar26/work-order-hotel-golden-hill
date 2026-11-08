@@ -51,7 +51,7 @@
                                 <i class="bi bi-pencil"></i>
                             </button>
                             <?php if (session()->get('id_role') == 1): ?>
-                                <form action="<?= base_url('inventaris/delete/' . $item['id_barang']) ?>" method="POST" class="d-inline" onsubmit="return confirm('<?= lang('General.confirm_delete') ?>');">
+                                <form action="<?= base_url('inventaris/delete/' . $item['id_barang']) ?>" method="POST" class="d-inline m-0 js-confirm-delete" data-confirm="<?= lang('General.confirm_delete') ?>">
                                     <?= csrf_field() ?>
                                     <button type="submit" class="btn btn-sm btn-outline-danger py-1 px-2" title="<?= lang('General.delete') ?>">
                                         <i class="bi bi-trash"></i>

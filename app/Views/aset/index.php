@@ -62,23 +62,23 @@
                             <span class="badge <?= $cClass ?>"><?= translate_condition($ast['kondisi']) ?></span>
                         </td>
                         <td class="text-center">
-                            <div class="btn-group btn-group-sm">
-                                <a href="<?= base_url('aset/detail/' . $ast['id_aset']) ?>" class="btn btn-outline-primary" title="<?= current_locale() === 'en' ? 'History & Details' : 'Riwayat & Rincian' ?>">
+                            <div class="d-inline-flex align-items-center gap-1">
+                                <a href="<?= base_url('aset/detail/' . $ast['id_aset']) ?>" class="btn btn-sm btn-outline-primary" title="<?= current_locale() === 'en' ? 'History & Details' : 'Riwayat & Rincian' ?>">
                                     <i class="bi bi-eye"></i>
                                 </a>
-                                <a href="<?= base_url('aset/print-qr/' . $ast['id_aset']) ?>" target="_blank" class="btn btn-outline-dark" title="<?= lang('Aset.print_qr_btn') ?>">
+                                <a href="<?= base_url('aset/print-qr/' . $ast['id_aset']) ?>" target="_blank" class="btn btn-sm btn-outline-dark" title="<?= lang('Aset.print_qr_btn') ?>">
                                     <i class="bi bi-qr-code"></i>
                                 </a>
-                                <a href="<?= base_url('workorder/create?id_aset=' . $ast['id_aset']) ?>" class="btn btn-outline-warning text-dark" title="<?= lang('Aset.report_damage_this') ?>">
+                                <a href="<?= base_url('workorder/create?id_aset=' . $ast['id_aset']) ?>" class="btn btn-sm btn-outline-warning text-dark" title="<?= lang('Aset.report_damage_this') ?>">
                                     <i class="bi bi-tools"></i>
                                 </a>
                                 <?php if (session()->get('id_role') == 1): ?>
-                                    <a href="<?= base_url('aset/edit/' . $ast['id_aset']) ?>" class="btn btn-outline-secondary" title="<?= current_locale() === 'en' ? 'Edit Asset' : 'Edit Aset' ?>">
+                                    <a href="<?= base_url('aset/edit/' . $ast['id_aset']) ?>" class="btn btn-sm btn-outline-secondary" title="<?= current_locale() === 'en' ? 'Edit Asset' : 'Edit Aset' ?>">
                                         <i class="bi bi-pencil"></i>
                                     </a>
-                                    <form action="<?= base_url('aset/delete/' . $ast['id_aset']) ?>" method="POST" class="d-inline" onsubmit="return confirm('<?= current_locale() === 'en' ? 'Delete this asset and its QR code?' : 'Hapus aset ini beserta QR code terkait?' ?>');">
+                                    <form action="<?= base_url('aset/delete/' . $ast['id_aset']) ?>" method="POST" class="d-inline m-0 js-confirm-delete" data-confirm="<?= current_locale() === 'en' ? 'Delete this asset and its QR code?' : 'Hapus aset ini beserta QR code terkait?' ?>">
                                         <?= csrf_field() ?>
-                                        <button type="submit" class="btn btn-outline-danger" title="<?= current_locale() === 'en' ? 'Delete Asset' : 'Hapus Aset' ?>">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger" title="<?= current_locale() === 'en' ? 'Delete Asset' : 'Hapus Aset' ?>">
                                             <i class="bi bi-trash"></i>
                                         </button>
                                     </form>

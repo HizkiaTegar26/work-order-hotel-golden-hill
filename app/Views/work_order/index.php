@@ -20,7 +20,7 @@
 <!-- Filters Card -->
 <div class="card card-custom p-3 mb-4">
     <form action="<?= base_url('workorder') ?>" method="GET" class="row g-2 align-items-end">
-        <div class="col-md-3 col-sm-6">
+        <div class="col-lg-3 col-md-6">
             <label class="form-label small fw-semibold text-secondary mb-1"><?= lang('WorkOrder.filter_status') ?></label>
             <select name="status" class="form-select form-select-sm">
                 <option value=""><?= lang('WorkOrder.filter_all_status') ?></option>
@@ -32,7 +32,7 @@
             </select>
         </div>
 
-        <div class="col-md-3 col-sm-6">
+        <div class="col-lg-3 col-md-6">
             <label class="form-label small fw-semibold text-secondary mb-1"><?= lang('WorkOrder.filter_dept') ?></label>
             <select name="dept" class="form-select form-select-sm">
                 <option value=""><?= lang('WorkOrder.filter_all_dept') ?></option>
@@ -44,9 +44,9 @@
             </select>
         </div>
 
-        <div class="col-lg-2 col-md-4 col-sm-6" style="min-width: 185px;">
+        <div class="col-lg-2 col-md-4">
             <label class="form-label small fw-semibold text-secondary mb-1"><?= lang('WorkOrder.filter_priority') ?></label>
-            <select name="prio" class="form-select form-select-sm" style="min-width: 175px;">
+            <select name="prio" class="form-select form-select-sm">
                 <option value=""><?= lang('WorkOrder.filter_all_priority') ?></option>
                 <?php foreach ($prioritas as $p): ?>
                     <option value="<?= $p['id_prioritas'] ?>" <?= ($currentFilters['prio'] == $p['id_prioritas']) ? 'selected' : '' ?>>
@@ -56,7 +56,7 @@
             </select>
         </div>
 
-        <div class="col-md-2 col-sm-6">
+        <div class="col-lg-2 col-md-4">
             <label class="form-label small fw-semibold text-secondary mb-1"><?= lang('WorkOrder.filter_ownership') ?></label>
             <select name="user" class="form-select form-select-sm">
                 <option value=""><?= lang('WorkOrder.filter_all_data') ?></option>
@@ -64,7 +64,7 @@
             </select>
         </div>
 
-        <div class="col-md-2 col-sm-12 d-flex gap-2">
+        <div class="col-lg-2 col-md-4 d-flex gap-2">
             <button type="submit" class="btn btn-sm btn-dark w-100">
                 <?= lang('WorkOrder.btn_filter') ?>
             </button>
@@ -169,8 +169,8 @@
                             Rp <?= number_format($wo['total_biaya_sparepart'], 0, ',', '.') ?>
                         </td>
                         <td class="text-center">
-                            <div class="btn-group btn-group-sm">
-                                <a href="<?= base_url('workorder/detail/' . $wo['id_wo']) ?>" class="btn btn-outline-primary" title="<?= lang('Dashboard.detail_btn') ?>">
+                            <div class="d-inline-flex align-items-center gap-1">
+                                <a href="<?= base_url('workorder/detail/' . $wo['id_wo']) ?>" class="btn btn-sm btn-outline-primary" title="<?= lang('Dashboard.detail_btn') ?>">
                                     <i class="bi bi-eye"></i>
                                 </a>
                                 <?php 
@@ -179,12 +179,12 @@
                                     $isOwnerOrAdmin = ($currentUserId === (int)$wo['id_user'] || $currentRoleId === 1);
                                 ?>
                                 <?php if ($isOwnerOrAdmin && (int)$wo['id_status'] === 1): ?>
-                                    <a href="<?= base_url('workorder/edit/' . $wo['id_wo']) ?>" class="btn btn-outline-secondary" title="Edit WO">
+                                    <a href="<?= base_url('workorder/edit/' . $wo['id_wo']) ?>" class="btn btn-sm btn-outline-secondary" title="Edit WO">
                                         <i class="bi bi-pencil"></i>
                                     </a>
-                                    <form action="<?= base_url('workorder/delete/' . $wo['id_wo']) ?>" method="POST" class="d-inline" onsubmit="return confirm('<?= current_locale() === 'en' ? 'Delete this Work Order?' : 'Hapus Work Order ini?' ?>');">
+                                    <form action="<?= base_url('workorder/delete/' . $wo['id_wo']) ?>" method="POST" class="d-inline m-0 js-confirm-delete" data-confirm="<?= current_locale() === 'en' ? 'Delete this Work Order?' : 'Hapus Work Order ini?' ?>">
                                         <?= csrf_field() ?>
-                                        <button type="submit" class="btn btn-outline-danger" title="Hapus WO">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger" title="Hapus WO">
                                             <i class="bi bi-trash"></i>
                                         </button>
                                     </form>

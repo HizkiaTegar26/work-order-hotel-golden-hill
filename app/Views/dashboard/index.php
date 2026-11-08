@@ -23,10 +23,13 @@
 <!-- Primary Metric Cards -->
 <div class="row g-3 mb-4">
     <div class="col-6 col-lg-3">
-        <div class="card card-custom p-3 h-100 border-start border-4 border-primary">
+        <div class="card card-custom p-3 h-100">
             <div class="d-flex justify-content-between align-items-start">
                 <div>
-                    <span class="small fw-semibold" style="color: #64748b;"><?= lang('Dashboard.total_wo') ?></span>
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="status-dot bg-primary"></span>
+                        <span class="small fw-semibold" style="color: #64748b;"><?= lang('Dashboard.total_wo') ?></span>
+                    </div>
                     <h3 class="fw-bold text-dark mt-1 mb-0" style="font-weight: 700;"><?= number_format($kpi['total_wo']) ?></h3>
                 </div>
             </div>
@@ -35,10 +38,13 @@
     </div>
 
     <div class="col-6 col-lg-3">
-        <div class="card card-custom p-3 h-100 border-start border-4 border-warning">
+        <div class="card card-custom p-3 h-100">
             <div class="d-flex justify-content-between align-items-start">
                 <div>
-                    <span class="small fw-semibold" style="color: #64748b;"><?= lang('Dashboard.in_progress') ?></span>
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="status-dot bg-warning"></span>
+                        <span class="small fw-semibold" style="color: #64748b;"><?= lang('Dashboard.in_progress') ?></span>
+                    </div>
                     <h3 class="fw-bold text-warning mt-1 mb-0" style="font-weight: 700;"><?= number_format($kpi['total_proses']) ?></h3>
                 </div>
             </div>
@@ -47,10 +53,13 @@
     </div>
 
     <div class="col-6 col-lg-3">
-        <div class="card card-custom p-3 h-100 border-start border-4 border-success">
+        <div class="card card-custom p-3 h-100">
             <div class="d-flex justify-content-between align-items-start">
                 <div>
-                    <span class="small fw-semibold" style="color: #64748b;"><?= lang('Dashboard.completed') ?></span>
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="status-dot bg-success"></span>
+                        <span class="small fw-semibold" style="color: #64748b;"><?= lang('Dashboard.completed') ?></span>
+                    </div>
                     <h3 class="fw-bold text-success mt-1 mb-0" style="font-weight: 700;"><?= number_format($kpi['total_selesai']) ?></h3>
                 </div>
             </div>
@@ -59,10 +68,13 @@
     </div>
 
     <div class="col-6 col-lg-3">
-        <div class="card card-custom p-3 h-100 border-start border-4 border-danger <?= $kpi['total_escalated'] > 0 ? 'bg-danger bg-opacity-10' : '' ?>">
+        <div class="card card-custom p-3 h-100 <?= $kpi['total_escalated'] > 0 ? 'bg-danger bg-opacity-10 border-danger border-opacity-25' : '' ?>">
             <div class="d-flex justify-content-between align-items-start">
                 <div>
-                    <span class="small fw-semibold" style="color: #64748b;"><?= lang('Dashboard.escalated_overdue') ?></span>
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="status-dot bg-danger <?= $kpi['total_escalated'] > 0 ? 'animate-pulse' : '' ?>"></span>
+                        <span class="small fw-semibold" style="color: #64748b;"><?= lang('Dashboard.escalated_overdue') ?></span>
+                    </div>
                     <h3 class="fw-bold text-danger mt-1 mb-0" style="font-weight: 700;"><?= number_format($kpi['total_escalated']) ?></h3>
                 </div>
             </div>
