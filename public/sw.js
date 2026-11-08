@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ghh-workorder-v2-cache-v1';
+const CACHE_NAME = 'ghh-workorder-v2-cache-v2';
 const OFFLINE_URL = '/work-order/offline';
 
 const ASSETS_TO_CACHE = [
@@ -6,6 +6,8 @@ const ASSETS_TO_CACHE = [
   '/work-order/offline',
   '/work-order/favicon.ico',
   '/work-order/manifest.json',
+  '/work-order/css/app.css',
+  '/work-order/css/auth.css',
   'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css',
   'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css',
   'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js',
