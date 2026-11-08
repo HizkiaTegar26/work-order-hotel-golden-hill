@@ -15,15 +15,8 @@ use App\Libraries\AuditService;
 use App\Libraries\WhatsAppService;
 use App\Libraries\NotificationService;
 use App\Libraries\SlaService;
-
-use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
-use PhpOffice\PhpSpreadsheet\Style\Alignment;
-use PhpOffice\PhpSpreadsheet\Style\Border;
-use PhpOffice\PhpSpreadsheet\Style\Fill;
-
-use Dompdf\Dompdf;
-use Dompdf\Options;
+use App\Services\WorkOrderCompletionService;
+use App\Services\WorkOrderExportService;
 
 class WorkOrder extends BaseController
 {
@@ -40,6 +33,8 @@ class WorkOrder extends BaseController
     protected WhatsAppService $wa;
     protected NotificationService $notification;
     protected SlaService $sla;
+    protected WorkOrderCompletionService $completionService;
+    protected WorkOrderExportService $exportService;
 
     public function __construct()
     {
@@ -56,6 +51,8 @@ class WorkOrder extends BaseController
         $this->wa = new WhatsAppService();
         $this->notification = new NotificationService();
         $this->sla = new SlaService();
+        $this->completionService = new WorkOrderCompletionService();
+        $this->exportService = new WorkOrderExportService();
     }
 
     public function index()
@@ -498,82 +495,28 @@ class WorkOrder extends BaseController
 
         $userId = (int) session()->get('user_id');
         $durasiMenit = (int) $this->request->getPost('durasi_menit_pengerjaan');
-
-        // Handle Photo Selesai Upload
-        $fotoBuktiName = null;
-        $file = $this->request->getFile('foto_bukti_selesai');
-        if ($file && $file->isValid() && !$file->hasMoved()) {
-            $newName = $file->getRandomName();
-            $file->move(FCPATH . 'uploads/selesai', $newName);
-            $fotoBuktiName = 'uploads/selesai/' . $newName;
-        }
-
-        // Handle Spareparts Usage with Database Transaction & Pessimistic Locking (SELECT ... FOR UPDATE)
         $useSpareparts = $this->request->getPost('use_spareparts');
-        $sparepartItems = $this->request->getPost('spareparts'); // array of ['id_barang' => X, 'qty' => Y]
-        $totalCost = 0.00;
+        $sparepartItems = $this->request->getPost('spareparts');
+        $file = $this->request->getFile('foto_bukti_selesai');
 
-        $db = \Config\Database::connect();
-        $db->transBegin();
+        $result = $this->completionService->completeWorkOrder(
+            $wo,
+            $userId,
+            $durasiMenit,
+            is_string($useSpareparts) ? $useSpareparts : null,
+            is_array($sparepartItems) ? $sparepartItems : null,
+            $file
+        );
 
-        try {
-            if ($useSpareparts === '1' && !empty($sparepartItems) && is_array($sparepartItems)) {
-                foreach ($sparepartItems as $part) {
-                    $idBarang = (int) ($part['id_barang'] ?? 0);
-                    $qty = (int) ($part['qty'] ?? 0);
-
-                    if ($idBarang > 0 && $qty > 0) {
-                        // Pessimistic Lock Row via SELECT ... FOR UPDATE
-                        $lockResult = $this->barangModel->deductStockPessimistic($idBarang, $qty);
-                        if (!$lockResult['success']) {
-                            // Rollback transaction immediately on insufficient stock & clean up uploaded photo
-                            $db->transRollback();
-                            if ($fotoBuktiName && file_exists(FCPATH . $fotoBuktiName)) {
-                                @unlink(FCPATH . $fotoBuktiName);
-                            }
-                            return redirect()->back()->withInput()->with('error', "Stok barang tidak mencukupi: " . $lockResult['error']);
-                        }
-
-                        $item = $lockResult['item'];
-                        $subtotal = $qty * (float)$item['harga_satuan'];
-                        $totalCost += $subtotal;
-
-                        $this->sparepartModel->insert([
-                            'id_wo'          => $id,
-                            'id_barang'      => $idBarang,
-                            'jumlah'         => $qty,
-                            'harga_subtotal' => $subtotal,
-                        ]);
-
-                        $this->audit->log("Pengurangan stok inventaris {$item['nama_barang']} sebanyak {$qty} {$item['satuan']} (Pessimistic Lock) untuk WO {$wo['kode_wo']}", 'Inventaris', $userId);
-                    }
-                }
-            }
-
-            // Update Work Order to Selesai (6)
-            $this->woModel->update($id, [
-                'id_status'               => 6, // Selesai
-                'foto_bukti_selesai'      => $fotoBuktiName,
-                'durasi_menit_pengerjaan' => $durasiMenit > 0 ? $durasiMenit : 30,
-                'total_biaya_sparepart'   => $totalCost,
-            ]);
-
-            $db->transCommit();
-        } catch (\Throwable $e) {
-            $db->transRollback();
-            if ($fotoBuktiName && file_exists(FCPATH . $fotoBuktiName)) {
-                @unlink(FCPATH . $fotoBuktiName);
-            }
-            return redirect()->back()->withInput()->with('error', "Gagal menyelesaikan Work Order: " . $e->getMessage());
+        if (!$result['success']) {
+            return redirect()->back()->withInput()->with('error', $result['error']);
         }
-
-        $this->audit->log("Menyelesaikan Work Order {$wo['kode_wo']} dengan durasi {$durasiMenit} menit dan total biaya sparepart Rp " . number_format($totalCost, 0, ',', '.'), 'Work Order', $userId);
 
         return redirect()->to(base_url('workorder/detail/' . $id))->with('success', "Selamat! Work Order {$wo['kode_wo']} telah selesai dan tercatat di laporan.");
     }
 
     /**
-     * Export Department Work Orders to Excel using PhpSpreadsheet
+     * Export Department Work Orders to Excel via WorkOrderExportService
      */
     public function exportExcel()
     {
@@ -582,7 +525,6 @@ class WorkOrder extends BaseController
 
         $filters = [];
         if ($roleId === 3 || $roleId === 2) {
-            // Staff and Kadep download their own department's report
             $filters['departemen'] = $deptId;
         } else {
             $reqDept = $this->request->getGet('dept');
@@ -590,104 +532,14 @@ class WorkOrder extends BaseController
         }
 
         $workOrders = $this->woModel->getWorkOrdersWithRelations(null, $filters);
-
-        $spreadsheet = new Spreadsheet();
-        $sheet = $spreadsheet->getActiveSheet();
-        $sheet->setTitle(current_locale() === 'en' ? 'Work Order Report' : 'Laporan Work Order');
-
-        // Hotel Header
-        $sheet->setCellValue('A1', lang('Report.hotel_title'));
-        $sheet->setCellValue('A2', lang('Report.excel_main_header'));
-        $sheet->setCellValue('A3', lang('Report.download_date', [date('d F Y H:i:s'), session()->get('nama_lengkap')]));
-
-        $sheet->mergeCells('A1:L1');
-        $sheet->mergeCells('A2:L2');
-        $sheet->mergeCells('A3:L3');
-
-        $sheet->getStyle('A1')->getFont()->setBold(true)->setSize(14);
-        $sheet->getStyle('A2')->getFont()->setBold(true)->setSize(11);
-        $sheet->getStyle('A3')->getFont()->setItalic(true)->setSize(9);
-
-        // Table Headers
-        $headers = [
-            'A5' => lang('Report.col_no'),
-            'B5' => lang('Report.col_wo_code'),
-            'C5' => lang('Report.col_title'),
-            'D5' => lang('Report.col_dept'),
-            'E5' => lang('Report.col_category'),
-            'F5' => lang('Report.col_sla_priority'),
-            'G5' => lang('Report.col_status'),
-            'H5' => lang('Report.col_requester'),
-            'I5' => lang('Report.col_handler'),
-            'J5' => lang('Report.col_date'),
-            'K5' => lang('Report.col_duration_min'),
-            'L5' => lang('Report.col_cost_idr'),
-        ];
-
-        foreach ($headers as $cell => $text) {
-            $sheet->setCellValue($cell, $text);
-        }
-
-        $sheet->getStyle('A5:L5')->applyFromArray([
-            'font' => ['bold' => true, 'color' => ['rgb' => 'FFFFFF']],
-            'fill' => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => '0F172A']],
-            'alignment' => ['horizontal' => Alignment::HORIZONTAL_CENTER, 'vertical' => Alignment::VERTICAL_CENTER],
-        ]);
-
-        $row = 6;
-        $no = 1;
-        $totalCostAll = 0;
-
-        foreach ($workOrders as $item) {
-            $sheet->setCellValue("A{$row}", $no++);
-            $sheet->setCellValue("B{$row}", $item['kode_wo']);
-            $sheet->setCellValue("C{$row}", $item['judul_wo']);
-            $sheet->setCellValue("D{$row}", $item['nama_departemen']);
-            $sheet->setCellValue("E{$row}", translate_category($item['nama_kategori']));
-            $sheet->setCellValue("F{$row}", translate_priority($item['tingkat_prioritas']) . ' (' . lang('WorkOrder.sla_hours', [$item['target_jam']]) . ')');
-            $sheet->setCellValue("G{$row}", translate_status($item['nama_status']));
-            $sheet->setCellValue("H{$row}", $item['nama_pengaju']);
-            $sheet->setCellValue("I{$row}", !empty($item['nama_handler']) ? $item['nama_handler'] : lang('WorkOrder.unassigned'));
-            $sheet->setCellValue("J{$row}", $item['tanggal_ajuan']);
-            $sheet->setCellValue("K{$row}", $item['durasi_menit_pengerjaan'] ?? 0);
-            $sheet->setCellValue("L{$row}", (float)$item['total_biaya_sparepart']);
-
-            $totalCostAll += (float)$item['total_biaya_sparepart'];
-            $row++;
-        }
-
-        // Summary Row
-        $sheet->setCellValue("A{$row}", lang('Report.total_expense_label'));
-        $sheet->mergeCells("A{$row}:K{$row}");
-        $sheet->setCellValue("L{$row}", $totalCostAll);
-
-        $sheet->getStyle("A{$row}:L{$row}")->applyFromArray([
-            'font' => ['bold' => true],
-            'fill' => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => 'FEF3C7']],
-        ]);
-
-        // Currency format for column L
-        $sheet->getStyle("L6:L{$row}")->getNumberFormat()->setFormatCode('#,##0');
-
-        // Auto width
-        foreach (range('A', 'L') as $col) {
-            $sheet->getColumnDimension($col)->setAutoSize(true);
-        }
-
-        $writer = new Xlsx($spreadsheet);
         $fileName = 'Laporan_Work_Order_GoldenHill_' . date('Ymd_His') . '.xlsx';
 
         $this->audit->log("Mengunduh Laporan Work Order dalam format Excel ({$fileName})", 'Laporan & Export');
-
-        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        header('Content-Disposition: attachment; filename="' . $fileName . '"');
-        header('Cache-Control: max-age=0');
-        $writer->save('php://output');
-        exit();
+        $this->exportService->exportExcel($workOrders, (string) (session()->get('nama_lengkap') ?? 'Staff'));
     }
 
     /**
-     * Export Single Work Order to PDF using DomPDF
+     * Export Single Work Order to PDF via WorkOrderExportService
      */
     public function exportPdf($id)
     {
@@ -697,24 +549,8 @@ class WorkOrder extends BaseController
         $spareparts = $this->sparepartModel->getPartsByWo($id);
         $slaInfo = $this->sla->getSlaInfo($wo);
 
-        $options = new Options();
-        $options->set('isRemoteEnabled', true);
-        $options->set('defaultFont', 'Helvetica');
-        $dompdf = new Dompdf($options);
-
-        $html = view('work_order/export_pdf', [
-            'wo'         => $wo,
-            'spareparts' => $spareparts,
-            'slaInfo'    => $slaInfo,
-        ]);
-
-        $dompdf->loadHtml($html);
-        $dompdf->setPaper('A4', 'portrait');
-        $dompdf->render();
-
         $this->audit->log("Mengunduh Surat Perintah Kerja (PDF) untuk {$wo['kode_wo']}", 'Laporan & Export');
-        $dompdf->stream('Work_Order_' . $wo['kode_wo'] . '.pdf', ['Attachment' => 0]);
-        exit();
+        $this->exportService->exportPdf($wo, $spareparts, $slaInfo);
     }
 
     /**
